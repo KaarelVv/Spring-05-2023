@@ -6,9 +6,11 @@ import com.kaarel.cardgame.repository.GameRepository;
 import com.kaarel.cardgame.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 // 2. Tagastatakse kõik mängijad
 // 3. Tagastatakse kõik mängud
 // 4. Tagatatakse kõik mängud high-score järjekorras
@@ -16,6 +18,12 @@ import java.util.List;
 // 6. Tagastataske kõik selle mängija mängud high-score järjekorras
 // 7. Tagasta kõik mängud millel on vähemalt 2 õiget vastust
 // 8. Tagasta kõige suurema skooriga mängija - 2te moodi (mängud järjekorda, mängijad high-score järjekorda)
+//Uued:
+// 9.  Tagasta kõige suurema skooriga mäng
+// 10. Tagasta selle mängija kõige suurema skooriga mäng
+// 11. Tagasta kõik mängijad kellel on high-score vähemalt 2
+// 12. Tagasta mängud kestvuse järjekorras
+// 13. Tagasta kõige lühema kestvusega mäng
 @RestController
 public class DatabaseController {
     @Autowired
@@ -26,20 +34,20 @@ public class DatabaseController {
 
     // 2. Tagastatakse kõik mängijad
     @GetMapping("players")
-    public List getPlayers(){
+    public List<Player> getPlayers(){
         return playerRepository.findAll();
     }
 
     // 3. Tagastatakse kõik mängud
     @GetMapping("games")
-    public List games(){
+    public List<Game> getGames(){
         return gameRepository.findAll();
     }
 
     // 4. Tagatatakse kõik mängud high-score järjekorras
 
     @GetMapping("card-game")
-    public List getHighScore(){
+    public List<Player> getHighScore(){
         return playerRepository.findAllByOrderByHighScoreDesc();
     }
 
@@ -51,20 +59,60 @@ public class DatabaseController {
 
     // 6. Tagastataske kõik selle mängija mängud high-score järjekorras
 
-    @GetMapping("/games/players/descending")
-    public List<Game> getGamesByPlayerDescending() {
-        return gameRepository.findAllByOrderByPlayerDesc();
+    @GetMapping("/games/players/descending/{name}")
+    public List<Game> getGamesByPlayerDescending(@PathVariable String name) {
+        Player player = playerRepository.findById(name).get();
+        return gameRepository.findAllByPlayerOrderByCorrectAnswersDesc(player);
     }
 
     // 7. Tagasta kõik mängud millel on vähemalt 2 õiget vastust
     @GetMapping("/players/correct-answers")
-    public List<Player> getPlayersWithTwoCorrectAnswers() {
-        return playerRepository.findByCorrectAnswers(2);
+    public List<Game> getPlayersWithAtLeastTwoOrMoreCorrectAnswers() {
+        return gameRepository.findAllByCorrectAnswersIsGreaterThan(2);
     }
 
     //  8. Tagasta kõige suurema skooriga mängija - 2te moodi (mängud järjekorda, mängijad high-score järjekorda)
     @GetMapping("/players/highest-score")
     public Player getPlayerWithHighestScore() {
-        return playerRepository.findTopByOrderByScoreDesc().orElse(null);
+        return playerRepository.findFirstByOrderByHighScoreDesc();
     }
-}
+
+    //  9.  Tagasta kõige suurema skooriga mäng
+
+    @GetMapping("/game/highest-score")
+    public Player getHighestScoreGame(){
+        return playerRepository.findTopByOrderByHighScore();
+    }
+
+    // 10. Tagasta selle mängija kõige suurema skooriga mäng
+
+    @GetMapping("/player/high-score/{name}")
+    public Long getPlayerReturnHighScore(@PathVariable String name) {
+        return playerRepository.findHighestScoreByName(name);
+    }
+
+    // 11. Tagasta kõik mängijad kellel on high-score vähemalt 2
+
+    @GetMapping("/player/return-player/high-score-2")
+    public List<Player> getPlayerHighScoreGreaterThan(){
+        return playerRepository.findPlayerByHighScoreGreaterThanEqual(2);
+    }
+
+    // 12. Tagasta mängud kestvuse järjekorras
+
+    @GetMapping("/game/return-duration")
+    public List<Game> getGameDurationDescending(){
+        return gameRepository.findAllByOrderByDurationDesc();
+    }
+
+    // 13. Tagasta kõige lühema kestvusega mäng
+
+    @GetMapping("/game/return-shortest-duration")
+    public List<Game> getGameDurationShortest(){
+        return gameRepository.findShortestDurationGame();
+    }
+
+    }
+
+
+

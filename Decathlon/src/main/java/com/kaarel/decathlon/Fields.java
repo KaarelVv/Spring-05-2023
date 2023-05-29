@@ -10,8 +10,5 @@ public enum Fields {
     DISCUS_THROW,
     POLE_VAULT,
     JAVELIN_THROW,
-    FIFTEEN_HUNDRED_METERS;
-
-
-
+    FIFTEEN_HUNDRED_METERS
 }

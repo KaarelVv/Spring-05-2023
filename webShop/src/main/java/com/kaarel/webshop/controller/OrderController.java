@@ -25,19 +25,19 @@ public class OrderController {
         return orderRepository.findById(id).get();
     }
 
-    // kustutab id järgi
-    @DeleteMapping("order")
-    public List<Order> deleteOrder(@PathVariable Long id){
-        orderRepository.deleteById(id);
-        return orderRepository.findAll();
-    }
-    // muudab orderi
-    @PutMapping("order/delete")
-    public List<Order> editOrder(@PathVariable Order order){
-        if (orderRepository.existsById(order.getId()))
-            orderRepository.save(order);
-
-        return orderRepository.findAll();
-    }
+//    // kustutab id järgi
+//    @DeleteMapping("order/delete")
+//    public List<Order> deleteOrder(@PathVariable Long id){
+//        orderRepository.deleteById(id);
+//        return orderRepository.findAll();
+//    }
+//    // muudab orderi
+//    @PutMapping("order/change")
+//    public List<Order> editOrder(@PathVariable Order order){
+//        if (orderRepository.existsById(order.getId())){
+//            orderRepository.save(order);
+//        }
+//        return orderRepository.findAll();
+//    }
 
 }

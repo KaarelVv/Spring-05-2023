@@ -70,7 +70,7 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    //GET localhost;8080/product
+    //GET localhost:8080/product
     @GetMapping("product-by-price")
     public List<Product> getProductByPrice(){
         return productRepository.findAllByOrderByPrice();
@@ -78,7 +78,7 @@ public class ProductController {
 
     //GET localhost;8080/product
     @GetMapping("products-by-higest-price")
-    public List<Product> getProductsDecending(){
+    public List<Product> getProductsDescending(){
         return Collections.singletonList(productRepository.findFirstByOrderByPriceDesc());
     }
 

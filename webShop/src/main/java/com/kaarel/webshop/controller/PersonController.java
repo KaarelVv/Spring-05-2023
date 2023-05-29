@@ -16,11 +16,13 @@ public class PersonController {
     public List<Person> getPersons(){
     return personRepository.findAll();
     }
+
     //Get person by id
     @GetMapping ("person/{id}")
     public Person getPerson(@PathVariable Long id){
         return personRepository.findById(id).get();
     }
+
     // Delete person
     @DeleteMapping("person/{id}")
     public List<Person> deletePerson(@PathVariable Long id){
@@ -36,7 +38,8 @@ public class PersonController {
         }
         return personRepository.findAll();
     }
-    //POST localhost:8080/product
+
+    //POST localhost:8080/person
     @PutMapping("person")
     public List<Person> editPerson(@RequestBody Person person){
         if (personRepository.existsById(person.getId())) {

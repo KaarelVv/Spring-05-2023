@@ -54,11 +54,11 @@ public class CardController {
         public String guess(@PathVariable String input ){
 
         if (lives<= 0){
-            return "Elud on otsas!";
+            return "Out of guesses!";
 
         }
-            if(!input.equals("lower")&&!input.equals("higher")&&!input.equals("equal"))
-                return "Vale sisend";
+            if(!input.equals("lower") && !input.equals("higher") && !input.equals("equal"))
+                return "Wrong Input";
 
             LocalDateTime limitTime = roundStartTime.plusSeconds(10);
             LocalDateTime answerTime = LocalDateTime.now();
@@ -66,9 +66,9 @@ public class CardController {
                 lives--;   //võtab ühe elu ära
                 if(lives == 0){
                     sendGameToDatabase();
-                    return "Mäng läbi!";
+                    return "Game Over!";
                 }
-                return "Vastasid liiga hilja";
+                return "Too late!";
             }
 
             Card newCard = new Card();
@@ -78,16 +78,16 @@ public class CardController {
                     baseCard.getValue() == newCard.getValue() && input.equals("equal")){
                 baseCard = newCard;
                 correctAnswers ++;
-                return "Vastasid õigesti!";
+                return "Correct answer";
             }
             else{
                 baseCard = newCard;
                 lives--;
                 if(lives == 0){
                     sendGameToDatabase();
-                    return "Mäng läbi!";
+                    return "Game Over!";
                 }
-            return "Vastasid valesti!";
+            return "Wrong Answer!";
             }
         }
 
