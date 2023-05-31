@@ -14,7 +14,7 @@ import lombok.Setter;
 //
 // -Võimalda saada sportlase kogusumma selleks hetkeks (kui on sisestatud 6 ala, siis 6 ala kogusumma)
 
-@Entity //teeb tabeliks
+@Entity //teeb tabeliks ja salvestab andmed
 @Getter
 @Setter
 public class Athlete {
@@ -22,5 +22,4 @@ public class Athlete {
     private String name;
     private String country;
     private Long age;
-    private Long result;
 }

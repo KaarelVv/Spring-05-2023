@@ -6,21 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodIngridients {
+public class Ingredients {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private long id;
+    private String name;
     private long weight;
-    @OneToMany
-    private List<Food> food;
 
 
 }

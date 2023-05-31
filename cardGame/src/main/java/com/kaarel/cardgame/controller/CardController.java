@@ -98,7 +98,7 @@ public class CardController {
             Game game = new Game();
             game.setPlayer(player);
             game.setCorrectAnswers(correctAnswers);
-            long duration = System.currentTimeMillis()- gameStartTime;
+            long duration = System.currentTimeMillis() - gameStartTime;
             game.setDuration(duration);
             gameRepository.save(game);
             baseCard = null;

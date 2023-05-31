@@ -1,5 +1,6 @@
 package com.kaarel.decathlon;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,37 +19,43 @@ import lombok.Setter;
 //    Points = INT(A(P — B)C) for field events (greater distance or height produces a higher score)
 @Setter
 @Getter
+@AllArgsConstructor
+
 public class Calculation {
 
-    private Fields fields ;
+    private Fields field ;
+    private double result;
     private Long value;
 
-    public Calculation(Athlete athlete) {
-        this.fields = fields;
+    public Calculation(String fieldName, Double result) {
+        this.field = Fields.valueOf(fieldName.toUpperCase());
+        this.result = result;
 
-        switch (fields) {
-            case HUNDRED_METERS -> {value = (long) Math.pow((25.4347 * (18 - athlete.getResult())), 1.81);
+        switch (field) {
+            case HUNDRED_METERS -> {value = (long) Math.pow((25.4347 * (18 - result)), 1.81);
             }
-            case LONG_JUMP -> {value = (long) Math.pow((0.14354 * (220 - athlete.getResult())), 1.4);
+            case LONG_JUMP -> {value = (long) Math.pow((0.14354 * (220 - result)), 1.4);
             }
-            case SHOT_PUT -> {value = (long) Math.pow((51.39  * (1.5 - athlete.getResult())), 1.05);
+            case SHOT_PUT -> {value = (long) Math.pow((51.39  * (1.5 - result)), 1.05);
             }
-            case HIGH_JUMP -> {value = (long) Math.pow((0.8465 * (75 - athlete.getResult())), 1.42);
+            case HIGH_JUMP -> {value = (long) Math.pow((0.8465 * (75 - result)), 1.42);
             }
-            case FOUR_HUNDRED_METERS -> {value = (long) Math.pow((1.53775 * (82 - athlete.getResult())), 1.81);
+            case FOUR_HUNDRED_METERS -> {value = (long) Math.pow((1.53775 * (82 - result)), 1.81);
             }
-            case HURDLES -> {value = (long) Math.pow((5.74352 * (28.5 - athlete.getResult())), 1.92);
+            case HURDLES -> {value = (long) Math.pow((5.74352 * (28.5 - result)), 1.92);
             }
-            case DISCUS_THROW -> {value = (long) Math.pow((25.4347 * (18 - athlete.getResult())), 1.1);
+            case DISCUS_THROW -> {value = (long) Math.pow((25.4347 * (18 - result)), 1.1);
             }
-            case POLE_VAULT -> {value = (long) Math.pow((0.2797 * (100 - athlete.getResult())), 1.35);
+            case POLE_VAULT -> {value = (long) Math.pow((0.2797 * (100 - result)), 1.35);
             }
-            case JAVELIN_THROW -> {value = (long) Math.pow((10.14 * (7 - athlete.getResult())), 1.08);
+            case JAVELIN_THROW -> {value = (long) Math.pow((10.14 * (7 - result)), 1.08);
             }
-            case FIFTEEN_HUNDRED_METERS -> {value = (long) Math.pow((25.4347 * (18 - athlete.getResult())), 1.81);
+            case FIFTEEN_HUNDRED_METERS -> {value = (long) Math.pow((25.4347 * (18 - result)), 1.81);
             }
-            default -> throw new IllegalArgumentException("Unsupported field: " + fields);
-
+            default -> throw new IllegalArgumentException("Unsupported field: ");
         }
+    }
+    public Long getValue() {
+        return value;
     }
 }

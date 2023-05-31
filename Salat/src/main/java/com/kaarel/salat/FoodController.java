@@ -26,28 +26,32 @@ public class FoodController {
     SalatRepository salatRepository;
 
     @GetMapping("salat")
-    public Food getFood() {
-        Food kartul = new Food("Kartul", 0.1,15.5,1.9);
-        return  kartul.validateMacro() ;
+    public Macros getFood(@RequestBody String name,
+                          @RequestBody double fat,
+                          @RequestBody double carb,
+                          @RequestBody double proteine ){
+
+
+        return null;
     }
 
     @GetMapping("salat")
-    public List<Food> getAllFoods(){
+    public List<Macros> getAllFoods(){
         return salatRepository.findAll();
     }
 
     @PostMapping("salat")
-    public List<Food> addFood(@RequestBody Food food){
-        if (food.getName()==null || !salatRepository.existsById(food.getName())) {
-            salatRepository.save(food);
+    public List<Macros> addFood(@RequestBody Macros macros){
+        if (macros.getNameOfIngridient()==null || !salatRepository.existsById(macros.getNameOfIngridient())) {
+            salatRepository.save(macros);
         }
         return salatRepository.findAll();
     }
 
     @PutMapping("salat")
-    public List<Food> editFood(@RequestBody Food food){
-        if (salatRepository.existsById(food.getName())){
-            salatRepository.save(food);
+    public List<Macros> editFood(@RequestBody Macros macros){
+        if (salatRepository.existsById(macros.getNameOfIngridient())){
+            salatRepository.save(macros);
         }
         return salatRepository.findAll();
     }
