@@ -1,4 +1,4 @@
-package com.kaarel.salat;
+package com.kaarel.salat.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,17 +7,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-public class Ingredients {
+@AllArgsConstructor
+public class Food {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
     private String name;
     private long weight;
+    @ManyToOne
+    private Ingredients ingredients;
+
+
+
+
 
 
 }

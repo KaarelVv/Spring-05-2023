@@ -16,9 +16,8 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fieldName;
-    private double resultValue;
+    private Long resultValue;
     @ManyToOne
+    @JoinColumn(name = "athlete_name")
     Athlete athlete;
-
-
 }

@@ -1,18 +1,25 @@
 package com.kaarel.webshop.controller;
 
+import com.kaarel.webshop.cache.ProductCache;
 import com.kaarel.webshop.entity.Product;
 import com.kaarel.webshop.repository.ProductRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class ProductController {
 
     @Autowired
+    ProductCache productCache;
+
+    @Autowired
     ProductRepository productRepository;
+
 
 
     //GET localhost:8080/product
@@ -22,13 +29,14 @@ public class ProductController {
     }
 
     @GetMapping ("product/{id}")
-    public Product getProduct(@PathVariable Long id){
-       return productRepository.findById(id).get();
+    public Product getProduct(@PathVariable Long id) throws ExecutionException {
+       return productCache.getProduct(id);
     }
 
     @DeleteMapping ("product/{id}")
     public List<Product> deleteProducts(@PathVariable Long id){
         productRepository.deleteById(id);
+        productCache.emptyCache(); // tühjendab vahemälu
         return productRepository.findAll();
     }
 
@@ -46,6 +54,7 @@ public class ProductController {
     public List<Product> editProducts(@RequestBody Product product){
         if (productRepository.existsById(product.getId())) {
             productRepository.save(product);
+            productCache.updateProduct(product.getId());
         }
         return productRepository.findAll();
     }
@@ -57,6 +66,7 @@ public class ProductController {
         if (product.getStock() > 0){
         product.setStock(product.getStock() - 1);
         productRepository.save(product);
+        productCache.updateProduct(product.getId());
         }
         return productRepository.findAll();
     }
@@ -67,6 +77,7 @@ public class ProductController {
         Product product = productRepository.findById(id).get();
         product.setStock(product.getStock() + 1);
         productRepository.save(product);
+        productCache.updateProduct(product.getId());
         return productRepository.findAll();
     }
 

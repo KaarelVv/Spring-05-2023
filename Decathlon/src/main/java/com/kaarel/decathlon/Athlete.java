@@ -22,4 +22,5 @@ public class Athlete {
     private String name;
     private String country;
     private Long age;
+
 }
