@@ -5,9 +5,8 @@ import com.kaarel.cardgame.entity.Player;
 import com.kaarel.cardgame.repository.GameRepository;
 import com.kaarel.cardgame.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,7 @@ import java.util.List;
 // 12. Tagasta mängud kestvuse järjekorras
 // 13. Tagasta kõige lühema kestvusega mäng
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class DatabaseController {
     @Autowired
     GameRepository gameRepository;
@@ -48,6 +48,16 @@ public class DatabaseController {
 
     @GetMapping("card-game")
     public List<Player> getHighScore(){
+        return playerRepository.findAllByOrderByHighScoreDesc();
+    }
+
+    @GetMapping("game-by-score")
+    public List<Game> getHighScoreGames(){
+        return gameRepository.findAllByOrderByCorrectAnswersDesc();
+    }
+
+    @GetMapping("player-by-score")
+    public List<Player> getHighScorePlayer(){
         return playerRepository.findAllByOrderByHighScoreDesc();
     }
 
@@ -109,10 +119,14 @@ public class DatabaseController {
 
     @GetMapping("/game/return-shortest-duration")
     public List<Game> getGameDurationShortest(){
-        return gameRepository.findShortestDurationGame();
+        return gameRepository.findFirstByOrderByDurationAsc();
     }
-
+    @GetMapping("/game/delete/{id}")
+    public List<Game> deleteGameById(@PathVariable Long id){
+        gameRepository.deleteById(id);
+        return gameRepository.findAll();
     }
+}
 
 
 

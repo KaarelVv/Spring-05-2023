@@ -4,6 +4,7 @@ import com.kaarel.cardgame.model.Card;
 import com.kaarel.cardgame.entity.Game;
 import com.kaarel.cardgame.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
+@CrossOrigin("http://localhost:3000") //Laseb nimetatud rakendsedd ligi.tärn laseb kõik ligi.
 public class CardController { //controller päring sisse võtta ja väljastada
    
     @Autowired

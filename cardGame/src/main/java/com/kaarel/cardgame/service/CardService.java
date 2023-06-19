@@ -7,18 +7,20 @@ import com.kaarel.cardgame.repository.GameRepository;
 import com.kaarel.cardgame.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
-@Component
+@Service
 public class CardService { // Service musta töö tegija
     @Autowired
     GameRepository gameRepository;
 
     @Autowired
     PlayerRepository playerRepository;
+
     Card baseCard;
     LocalDateTime roundStartTime;
     Player player;
@@ -49,6 +51,11 @@ public class CardService { // Service musta töö tegija
             playerRepository.save(player);
         }
     }
+
+
+
+
+
     public String checkIfCorrect(String input) {
         if (lives<= 0){
             return "Out of guesses!";

@@ -7,14 +7,13 @@ import com.kaarel.webshop.entity.Product;
 import com.kaarel.webshop.model.EveryPayResponse;
 import com.kaarel.webshop.model.EverypayData;
 import com.kaarel.webshop.model.EverypayLink;
+import com.kaarel.webshop.model.EverypayPaymentState;
 import com.kaarel.webshop.repository.OrderRepository;
 import com.kaarel.webshop.repository.PersonRepository;
 import com.kaarel.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,12 +35,24 @@ public class OrderService {
     ProductRepository productRepository;
     @Autowired
     ProductCache productCache;
+    @Value("${everypay.url}") //vaata application properties
+    String everypayUrl;
+    @Value("${everypay.authorization}") //vaata application properties
+    String everypayAuhorization;
+    @Value("${everypay.username}") //vaata application properties
+    String everypayUsername;
+    @Value("${everypay.customer-url}") //vaata application properties
+    String everypayCustomerUrl;
 
-    public Order saveOrderToDb(Long personId, List<Product> products, double sum) {
-        Person person = personRepository.findById(personId).get();
-
+    public Order saveOrderToDb(Long personId, List<Product> products, double sum) throws Exception {
+        Person person ;
+        if (personRepository.findById(personId).isPresent()) {
+            person = personRepository.findById(personId).get();
+        }else {
+            throw new Exception("Person not found");
+        }
         Order order = new Order();
-        order.setPaid(false);
+        order.setPaid("initial");
         order.setTotalSum(sum);
         order.setCreationDate(new Date());
         order.setProductList(products);
@@ -50,12 +61,15 @@ public class OrderService {
         Order dbOrder = orderRepository.save(order);
         return dbOrder;
     }
-    public EverypayLink getEverypayLink(double sum, Order dbOrder, String url) {
+
+    public EverypayLink getEverypayLink(double sum, Order dbOrder) {
         EverypayData data = getEverypayData(sum, dbOrder);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION,"Basic ZTM2ZWI0MGY1ZWM4N2ZhMjo3YjkxYTNiOWUxYjc0NTI0YzJlOWZjMjgyZjhhYzhjZA==");
+        headers.set(HttpHeaders.AUTHORIZATION,everypayAuhorization);
         HttpEntity<EverypayData> httpEntity = new HttpEntity<>(data,headers);
+
+        String url = everypayUrl + "/payments/oneoff";
         ResponseEntity<EveryPayResponse> response = restTemplate.exchange(url, HttpMethod.POST,httpEntity,EveryPayResponse.class);
 
 
@@ -67,13 +81,13 @@ public class OrderService {
 
     private  EverypayData getEverypayData(double sum, Order dbOrder) {
         EverypayData data = new EverypayData();
-        data.setApi_username("e36eb40f5ec87fa2");
+        data.setApi_username(everypayUsername);
         data.setAccount_name("EUR3D1");
         data.setAmount(sum);
         data.setOrder_reference(dbOrder.getId().toString());
         data.setNonce("a9b7f7a" + dbOrder.getId() + new Date()); //Et genereerida uus nonce
         data.setTimestamp(ZonedDateTime.now().toString());
-        data.setCustomer_url("https://maksmine.web.app/makse");
+        data.setCustomer_url(everypayCustomerUrl);
         return data;
     }
 
@@ -84,5 +98,27 @@ public class OrderService {
             dbProducts.add(originalProduct);
         }
         return dbProducts;
+    }
+
+    public Order checkIfOrderPaid(String paymentReference) {
+
+        String username = everypayUsername;
+        String url = everypayUrl + paymentReference + "?api_username=" + username;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION,everypayAuhorization);
+        HttpEntity httpEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<EverypayPaymentState> response = restTemplate.exchange(url,HttpMethod.GET,httpEntity, EverypayPaymentState.class);
+
+        EverypayPaymentState httpBody = response.getBody();
+        Order order = orderRepository.findById(Long.valueOf(httpBody.order_reference)).get();
+        String orderStatus = httpBody.payment_state;
+
+        order.setPaid(orderStatus);
+        orderRepository.save(order);
+
+
+        return order ;
     }
 }

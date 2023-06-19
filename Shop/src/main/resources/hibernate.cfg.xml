@@ -1,0 +1,25 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/employees?useSSL=false</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">12345</property>
+        <property name="connection.pool_size">5</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">create</property>
+        <!--javax.persistence.jdbc.url=jdbc:mysql://localhost:3306/tms?createDatabaseIfNotExist=true-->
+        <!--employees?useSSL=false-->
+
+        <!--<property name="hibernate.generate_statistics">true</property>-->
+
+
+<!--        <mapping class="Entity.Customer" />-->
+<!--        <mapping class="Entity.Employee" />-->
+<!--        <mapping class="Entity.Laptop" />-->
+<!--        <mapping class="Entity.Project" />-->
+
+    </session-factory>
+</hibernate-configuration>

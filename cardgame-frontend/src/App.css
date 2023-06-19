@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+tr, td{
+  
+  border: 1px solid black;
+}
+
+thead{
+  font-style: italic;
+  font-size: 20px;
+  border: 1px solid black;
+}

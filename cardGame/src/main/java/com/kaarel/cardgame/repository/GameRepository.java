@@ -24,7 +24,11 @@ public interface GameRepository extends JpaRepository<Game,Long> {
 
     List<Game> findAllByOrderByDurationDesc();
 
-    List<Game> findShortestDurationGame();
+    List<Game> findAllByOrderByCorrectAnswersDesc();//viimane
+
+    List<Game> findFirstByOrderByDurationAsc();
+
+
 
 
 
