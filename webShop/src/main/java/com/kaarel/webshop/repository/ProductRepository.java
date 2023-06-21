@@ -19,4 +19,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     //Kõik aktiivsed
     List<Product> findAllByActive(boolean active);
 
+    List<Product> findAllByOrderByIdDesc();
+
 }

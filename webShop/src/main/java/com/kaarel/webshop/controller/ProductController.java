@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+@CrossOrigin("http://localhost:3000")
 @RestController
 public class ProductController {
 
@@ -25,7 +25,7 @@ public class ProductController {
     //GET localhost:8080/product
     @GetMapping("product")
     public List<Product> getProducts(){
-        return productRepository.findAll();
+        return productRepository.findAll();// findallByID
     }
 
     @GetMapping ("product/{id}")
@@ -60,7 +60,7 @@ public class ProductController {
     }
 
     //POST localhost:8080/product/{id}
-    @PatchMapping("decrease-stock")
+    @PatchMapping("decrease-stock/{id}")
     public List<Product> decreaseStock(@PathVariable Long id){
         Product product = productRepository.findById(id).get();
         if (product.getStock() > 0){
@@ -68,17 +68,17 @@ public class ProductController {
         productRepository.save(product);
         productCache.updateProduct(product.getId());
         }
-        return productRepository.findAll();
+        return productRepository.findAllByOrderByIdDesc();
     }
 
     //POST localhost:8080/product/{id}
-    @PatchMapping("increase-stock")
+    @PatchMapping("increase-stock/{id}")
     public List<Product> increaseStock(@PathVariable Long id){
         Product product = productRepository.findById(id).get();
         product.setStock(product.getStock() + 1);
         productRepository.save(product);
         productCache.updateProduct(product.getId());
-        return productRepository.findAll();
+        return productRepository.findAllByOrderByIdDesc();
     }
 
     //GET localhost:8080/product
@@ -88,7 +88,7 @@ public class ProductController {
     }
 
     //GET localhost;8080/product
-    @GetMapping("products-by-higest-price")
+    @GetMapping("products-by-highest-price")
     public List<Product> getProductsDescending(){
         return Collections.singletonList(productRepository.findFirstByOrderByPriceDesc());
     }
@@ -99,10 +99,16 @@ public class ProductController {
         return productRepository.findAllByActive(true);
     }
 
-    //GET localhost:8080/product
-    @GetMapping("active-product-and-stock")
-    public List<Product> getActiveProductsAndStock(){
-        return productRepository.findAllByActiveTrueAndStockGreaterThan(5);
+    //GET localhost:8080/public-products
+    @GetMapping("public-products")
+    public List<Product> getActiveProductsWithStock(){
+        return productRepository.findAllByActiveTrueAndStockGreaterThan(0);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public List<Product> deleteProduct(@PathVariable Long id){
+        productRepository.deleteById(id);
+        return productRepository.findAll();
     }
 
 }

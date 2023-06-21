@@ -1,14 +1,36 @@
 .App {
   text-align: center;
-}
-
-tr, td{
   
-  border: 1px solid black;
 }
 
-thead{
-  font-style: italic;
-  font-size: 20px;
+.td{
   border: 1px solid black;
+  
+  
+}
+.tdBold{
+  border: 2px solid black;
+  
+}
+
+.button{
+  background-color: white;
+  
+}
+
+.tableLayout {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+.table-head{
+  font-size: 20px;
+  font-weight: normal ;
+  
+  
+}
+.centered-text{
+  text-align: center;
+
+
 }

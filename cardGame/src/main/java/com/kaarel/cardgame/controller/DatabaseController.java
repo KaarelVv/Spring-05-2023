@@ -124,7 +124,7 @@ public class DatabaseController {
     @GetMapping("/game/delete/{id}")
     public List<Game> deleteGameById(@PathVariable Long id){
         gameRepository.deleteById(id);
-        return gameRepository.findAll();
+        return gameRepository.findAllByOrderByCorrectAnswersDesc();
     }
 }
 

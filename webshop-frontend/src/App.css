@@ -1,38 +1,36 @@
 .App {
   text-align: center;
+  margin: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo{
+  width: 200px;
+  height: 150px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logo:hover{
+  opacity: 0.9;
+  cursor: pointer; /* tuleb näpp peale osutades*/
+  width: 250px;
+  height: 200px;
+  transition: 1s;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.logo:active{
+  border: 3px solid rgb(83, 33, 33);
 }
 
-.App-link {
-  color: #61dafb;
+.menu-button{
+  background-color: blue;
+  border: none;
+  margin: 1px;;
+  border-radius: 2%;
+
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu-button:hover{
+  opacity: 0.2;
 }
+
+
