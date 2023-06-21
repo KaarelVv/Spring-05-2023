@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../Table.css';
+import style from '../Table.module.css';
 
 function Homepage() {
 
@@ -14,23 +14,23 @@ function Homepage() {
   return (
     <div>
 
-      <table className='layout'>
+      <table className={style.layout}>
         <tr >
-          <th className='td'>Nimetus</th>
-          <th className='td'>Hind</th>
-          <th className='td'>Kirjeldus</th>
+          <th className={style.td}>Nimetus</th>
+          <th className={style.td}>Hind</th>
+          <th className={style.td}>Kirjeldus</th>
         </tr>
-        <tbody className='td'>
+        <tbody className={style.td}>
 
           {products.map(product =>
             <tr key={product.id}>
-              <td className='td'>{product.name}</td>
-              <td className='td'>{product.price}$</td>
-              <td className='td'>{product.description}</td>
+              <td className={style.td}>{product.name}</td>
+              <td className={style.td}>{product.price}$</td>
+              <td className={style.td}>{product.description}</td>
 
-              <td className='td'><img src={product.image} alt='' className='custom-size' /></td>
+              <td className={style.td}><img src={product.image} alt='' className='custom-size' /></td>
 
-              <td className='td'><button>Lisa ostukorvi</button></td>
+              <td className={style.td}><button>Lisa ostukorvi</button></td>
             </tr>)}
 
         </tbody>
