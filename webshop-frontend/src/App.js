@@ -30,7 +30,8 @@ function App() {
           <Navbar.Brand as={Link} to="mainPage">
             <img className='logo'
               src='https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'
-              alt='' /></Navbar.Brand>
+              alt='' />
+              </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

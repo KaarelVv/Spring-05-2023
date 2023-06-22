@@ -15,20 +15,21 @@ function Homepage() {
     <div>
 
       <table className={style.layout}>
-        <tr >
-          <th className={style.td}>Nimetus</th>
-          <th className={style.td}>Hind</th>
-          <th className={style.td}>Kirjeldus</th>
-        </tr>
+        <thead>
+          <tr >
+            <th className={style.td}>Nimetus</th>
+            <th className={style.td}>Hind</th>
+            <th className={style.td}>Kirjeldus</th>
+          </tr>
+        </thead>
         <tbody className={style.td}>
-
           {products.map(product =>
             <tr key={product.id}>
               <td className={style.td}>{product.name}</td>
               <td className={style.td}>{product.price}$</td>
               <td className={style.td}>{product.description}</td>
 
-              <td className={style.td}><img src={product.image} alt='' className='custom-size' /></td>
+              <td className={style.td}><img src={product.image} alt='' className={style.custom__size} /></td>
 
               <td className={style.td}><button>Lisa ostukorvi</button></td>
             </tr>)}

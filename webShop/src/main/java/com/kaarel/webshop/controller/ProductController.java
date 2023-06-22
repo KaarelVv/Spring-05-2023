@@ -25,7 +25,7 @@ public class ProductController {
     //GET localhost:8080/product
     @GetMapping("product")
     public List<Product> getProducts(){
-        return productRepository.findAll();// findallByID
+        return productRepository.findAllByOrderByIdDesc();// findallByID
     }
 
     @GetMapping ("product/{id}")
@@ -33,7 +33,7 @@ public class ProductController {
        return productCache.getProduct(id);
     }
 
-    @DeleteMapping ("product/{id}")
+    @DeleteMapping ("product/delete/{id}")
     public List<Product> deleteProducts(@PathVariable Long id){
         productRepository.deleteById(id);
         productCache.emptyCache(); // tühjendab vahemälu
@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     //POST localhost:8080/product
-    @PutMapping("product")
+    @PutMapping("product/edit")
     public List<Product> editProducts(@RequestBody Product product){
         if (productRepository.existsById(product.getId())) {
             productRepository.save(product);

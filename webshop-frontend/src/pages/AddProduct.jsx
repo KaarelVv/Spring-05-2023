@@ -1,5 +1,6 @@
 import { ToastContainer, toast } from 'react-toastify';
 import React, { useRef } from 'react'
+import styles from '../Table.module.css';
 
 function AddProduct() {
 
@@ -29,49 +30,51 @@ function AddProduct() {
     };
     return (
         <div>
-            <table className='layout'>
+            <table className={styles.layout}>
 
-                <tr className='spaces'>
+                <tbody>
+                <tr className={styles.spaces}>
                     <td>
                         <label>Nimi</label><br />
                         <input ref={nameRef} type='text' /><br />
                     </td>
                 </tr >
-                <tr className='spaces'>
+                <tr className={styles.spaces}>
                     <td >
                         <label>Hind</label><br />
                         <input ref={priceRef} type='number' /><br />
                     </td>
                 </tr >
-                <tr className='spaces'>
+                <tr className={styles.spaces}>
                     <td>
                         <label>Kirjeldus</label><br />
                         <input ref={descriptionRef} type='text' /><br />
                     </td>
                 </tr>
-                <tr className='spaces'>
+                <tr className={styles.spaces}>
                     <td>
                         <label>Pilt</label><br />
                         <input ref={imageRef} type='text' /><br />
                     </td>
                 </tr>
-                <tr className='spaces'>
+                <tr className={styles.spaces}>
                     <td>
                         <label>Aktiivne</label><br />
                         <input ref={activeRef} type='checkbox' /><br />
                     </td>
                 </tr>
-                <tr className='spaces'> 
+                <tr className={styles.spaces}> 
                     <td>
                         <label>Kogus</label><br />
                         <input ref={stockRef} type='number' /><br />
                     </td>
                 </tr>
-                <tr className='spaces'>
+                <tr className={styles.spaces}>
                     <td>
                         <button onClick={add}>Lisa uus toode</button>
                     </td>
                 </tr>
+                </tbody>
                 <ToastContainer position="bottom-left" />
             </table>
         </div >

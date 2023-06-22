@@ -10,7 +10,7 @@ function GameDatabase() {
     fetch("http://localhost:8080/game-by-score")
       .then(response => response.json())
       .then((json) => setGames(json))
-  }, []);
+  }, []);//kandilisse läheb muutuja mida vaja fetchida kogu aeg
 
   const deleteGame = (id) => {
     fetch(`http://localhost:8080/game/delete/${id}`)
