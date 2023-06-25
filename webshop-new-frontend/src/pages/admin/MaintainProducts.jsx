@@ -14,21 +14,21 @@ function MaintainProducts() {
       .then(res => res.json())
       .then(json => {
         setProducts(json || []);
-        setDbProducts(json || []);
+        
         setLoading(false);
       })
   }, []);
 
-  function deleteProduct(productId) {
-    const index = dbProducts.findIndex(element => element.id === productId);
-    dbProducts.splice(index, 1);
-    setProducts(dbProducts.slice());
+  const deleteProduct = (id) => {
+
     // TODO: Backendi päring
-    fetch()
-  }
+    fetch(`http://localhost:8080/product/delete/${id}`, { method: "DELETE" })
+      .then(res => res.json())
+      .then(data => setProducts(data))
+  };
 
   const searchFromProducts = () => {
-    const result = dbProducts.filter(e =>
+    const result = products.filter(e =>
       e.name.toLowerCase().includes(searchedRef.current.value.toLowerCase()));
     setProducts(result);
   }
@@ -76,7 +76,11 @@ function MaintainProducts() {
               <td>{element.price}</td>
               <td>{element.description}</td>
               <td>{element.stock}</td>
-              <td>{element.category}</td>
+              <td>
+                {element.category !== null ? (
+                  <div>{element.category.name}</div>
+                ) : ("")}
+              </td>
               <td>
                 <Link to={"/admin/edit-product/" + element.id}>
                   <button>Edit</button>

@@ -9,10 +9,12 @@ function MaintainCategories() {
     fetch(config.backendUrl + "/categories")
       .then(res => res.json())
       .then(json => setCategories(json || []));
-  }, []);
+  }, [categoryRef]);
 
   const add = () => {
-    const newCategory = { "name": categoryRef.current.value };
+    const newCategory = {
+      "name": categoryRef.current.value
+    };
 
     fetch(config.backendUrl + "/category/add", {
       method: "POST",
@@ -26,7 +28,7 @@ function MaintainCategories() {
   const deleteCategory = (id) => {
     fetch(config.backendUrl + "/category/delete/" + id, {
       method: "DELETE"
-      
+
     })
       .then(res => res.json())
       .then(json => setCategories(json));
@@ -37,7 +39,9 @@ function MaintainCategories() {
       {categories.length === 0 && <div>No categories!</div>}
       <label>Category</label><br />
       <input ref={categoryRef} type="text" /><br />
+
       <button onClick={add}>Add</button> <br />
+
       {categories.map((element, index) =>
         <div key={index}>
           {element.name}

@@ -3,37 +3,35 @@ import config from "../../data/config.json";
 import { t } from 'i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRef } from 'react';
+import { json } from 'react-router-dom';
 
 function AddProduct() {
 
-  const idRef = useRef(); //kustutada
+
   const nameRef = useRef();
   const priceRef = useRef();
   const imageRef = useRef();
   const categoryRef = useRef();
   const descriptionRef = useRef();
   const activeRef = useRef();
-  const [idUnique, setIdUnique] = useState(true); //kustudada
-  const [dbProducts, setDbProducts] = useState([]); 
+
+ 
   const [categories, setCategories] = useState([]);
   
-  useEffect(() => {
-    fetch("VÕTAME KATEGOORIAD")
-  }, []); 
 
   useEffect(() => {
-    fetch("VÕTAME TOOTED")
+    fetch(config.backendUrl + "/categories") //võtan kategooriad 
+      .then(res => res.json())
+      .then(json => setCategories(json))
   }, []);
 
+  // useEffect(() => {
+  //   fetch(config.backendUrl + "/product") //võtan tooted ??
+      
+  // }, []);
+
   function add() {
-    if (idRef.current.value === "") {
-      toast("Id not filled");
-      return;
-    }
-    if (/^[0-9]+$/.test(idRef.current.value) === false) {
-      toast("Id must contain only numbers");
-      return;
-    }
+
     if (nameRef.current.value === "") {
       toast("Name not filled");
       return;
@@ -54,20 +52,30 @@ function AddProduct() {
       toast("Description not filled");
       return;
     }
+    const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
+
     const addProduct = {
-      "id": Number(idRef.current.value),
+
       "name": nameRef.current.value,
       "price": Number(priceRef.current.value),
       "image": imageRef.current.value,
-      "category": categoryRef.current.value,
+      "category": selectedCategory,
       "description": descriptionRef.current.value,
       "active": activeRef.current.value.checked,
     }
-    dbProducts.push(addProduct); // kustutada
+
     toast(t("product_added"));
     // TODO: BACKENDI PÄRING
-    fetch()
-    idRef.current.value = "";
+    fetch(config.backendUrl + "/product/add",
+      {
+        method: "POST",
+        body: JSON.stringify(addProduct),
+        headers: { "Content-Type": "application/json" }
+      })
+     
+
+
+
     nameRef.current.value = "";
     priceRef.current.value = "";
     imageRef.current.value = "";
@@ -76,37 +84,28 @@ function AddProduct() {
     activeRef.current.checked = false;
   }
 
-  const checkIdUniqueness = () => { //kustutada
-    const index = dbProducts.findIndex(e => e.id === Number(idRef.current.value));
-    if (index === -1) {
-      setIdUnique(true)
-    } else {
-      setIdUnique(false)
-      toast("Toote ID pole unikaalne");
-    }
-  }
+
 
   return (
     <div>
-      <label> ID:</label><br />
-      <input ref={idRef} onChange={checkIdUniqueness} type="number" /> <br />
+
       <label> {t("name")}:</label> <br />
       <input ref={nameRef} type="text" /> <br />
       <label> {t("price")}:</label><br />
       <input ref={priceRef} type="number" /> <br />
       <label> {t("image")}:</label><br />
-      <input ref={imageRef} type="text"/><br />
+      <input ref={imageRef} type="text" /><br />
       <label> {t("category")}:</label>
       <select ref={categoryRef}>
         <option value="">Vali kategooria!</option>
         {categories.map(category => <option key={category.name}>{category.name}</option>)}
       </select> <br />
       <label> {t("description")}:</label>
-      <input ref={descriptionRef} type="text"/> <br />
+      <input ref={descriptionRef} type="text" /> <br />
       <label> {t("active")}:</label>
-      <input ref={activeRef} type="checkbox"/> <br />
-      <button disabled={idUnique === false}  onClick={add}>{t("add_product")}</button>
-      {idUnique === false && <div>{t("id_error")}</div>}
+      <input ref={activeRef} type="checkbox" /> <br />
+      <button onClick={add}>{t("add_product")}</button>
+
       <ToastContainer position='top-center'></ToastContainer>
     </div>
   )
