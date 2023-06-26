@@ -20,8 +20,8 @@ function Map(props) {
   useEffect(() => {
 
     fetch(config.backendUrl + "/shop")
-      .then(res => res.json())
-      .then(data => setShops(data));
+       .then(res => res.json())
+       .then(data => setShops(data));
   }, []);
 
   // function coordinateSetiing(coordinates) {
@@ -33,7 +33,7 @@ function Map(props) {
   return (
     <div>
 
-      <MapContainer className='map' center={props.mapCoordinaates.lngLat} zoom={props.mapCoordinaates.zoom} scrollWheelZoom={false}>
+      <MapContainer className='map' center={props.mapCoordinaates.lngLat} zoom={props.mapCoordinaates.zoom} scrollWheelZoom={true}>
         <ChangeView center={props.mapCoordinaates.lngLat} zoom={props.mapCoordinaates.zoom} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -44,15 +44,15 @@ function Map(props) {
         {shops.map(shop => (
           <Marker key={shop.id} position={[shop.latitude, shop.longitude]}>
             <Popup>
-              {shop.name}<br />{shop.openTime}
+              {shop.name}<br /> Avatud {shop.openTime}
             </Popup>
           </Marker>))}
 
-        <Marker position={[59.4216, 24.7919]}>
+        {/* <Marker position={[59.4216, 24.7919]}>
           <Popup>
             Ülemiste keskus. <br /> Avatud 9-20
           </Popup>
-        </Marker>
+        </Marker> */}
         <Marker position={[59.4266, 24.7245]}>
           <Popup>
             Kristiine keskus. <br /> Avatud 10-21

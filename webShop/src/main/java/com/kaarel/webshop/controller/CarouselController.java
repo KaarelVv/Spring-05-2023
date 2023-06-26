@@ -1,12 +1,13 @@
 package com.kaarel.webshop.controller;
 
 import com.kaarel.webshop.entity.Carousel;
-import com.kaarel.webshop.entity.Category;
+
 import com.kaarel.webshop.repository.CarouselRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -15,7 +16,11 @@ public class CarouselController {
     CarouselRepository carouselRepository;
         @GetMapping("carousel")
     public List<Carousel> getCarouselPictures(){
-        return carouselRepository.findAll();
+        return carouselRepository.findAllByOrderByIdAsc();
+    }
+    @GetMapping("carousel/{id}")
+    public Carousel getCarousel(@PathVariable Long id)  {
+        return carouselRepository.findById(id).get();
     }
     @PostMapping("carousel/add")
     public List<Carousel> addCarousel(@RequestBody Carousel carousel){

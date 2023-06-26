@@ -59,8 +59,7 @@ function EditProduct() {
       method: "PUT",
       body: JSON.stringify(updatedProduct),
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json",},
     })
       .then(res => res.json())
       .then((json) => {

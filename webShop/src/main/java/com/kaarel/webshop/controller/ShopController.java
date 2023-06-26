@@ -33,4 +33,9 @@ public class ShopController {
         }
         return shopRepository.findAll();
     }
+    @DeleteMapping("shop/delete/{id}")
+    public List<Shop>deleteShop(@PathVariable Long id){
+        shopRepository.deleteById(id);
+        return shopRepository.findAll();
+    }
 }

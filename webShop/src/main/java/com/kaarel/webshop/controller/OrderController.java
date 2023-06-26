@@ -37,7 +37,7 @@ public class OrderController {
     public EverypayLink payment(@PathVariable Long personId , @RequestBody List<Product> products) throws Exception {
 
         List<Product> originalProduct = orderService.getDbProducts(products);
-                               //(Product ::getPrice) --saab ka nii kuid siis ei saa juuurde arvutada summat
+        //(Product ::getPrice) --saab ka nii kuid siis ei saa juuurde arvutada summat
         double sum =  originalProduct.stream().mapToDouble(Product ::getPrice).sum(); // võtta igaühe juurest ID ja leida ta andmebaasist
         // cache Google Guava
 

@@ -1,61 +1,123 @@
-import React, {useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import config from "../../data/config.json";
-import { json } from 'react-router-dom';
+import { json, useParams } from 'react-router-dom';
 
 function MaintainCarouselPictures() {
-  const carouselRef = useRef;
-  const [carousels , setCarousel] = useState([]);
+  const carouselRef = useRef();
+  const { id } = useParams();
+  const idRef = useRef();
+  const srcRef = useRef();
+  const altRef = useRef();
+  const headerRef = useRef();
+  const dscRef = useRef();
+
+  const [carousels, setCarousel] = useState([]);
 
 
-    useEffect(() => {
-      fetch(config.backendUrl +"/carousel")
+  useEffect(() => {
+    fetch(config.backendUrl + "/carousel")
       .then(res => res.json())
-      .then(json => setCarousel(json));
-    }, []);
+      .then(json => {
+        setCarousel(json);
+        console.log(json);
+      });
+  }, []);
 
-    const add = () =>{
-      const newCarousel = {
-        "src": carouselRef.current.value,
-        "alt": carouselRef.current.value,
-        "header": carouselRef.current.value,
-        "description": carouselRef.current.value
-      };
+  function add() {
 
-      fetch(config.backendUrl + "/carousel/add", {
+    const newCarousel = {
+      "id": id,
+      "src": srcRef.current.value,
+      "alt": altRef.current.value,
+      "header": headerRef.current.value,
+      "description": dscRef.current.value,
+    };
+
+    fetch(config.backendUrl + "/carousel/add",
+      {
         method: "POST",
         body: JSON.stringify(newCarousel),
         headers: { "Content-Type": "application/json" }
       })
-        .then(res => res.json())
-        .then(json => setCarousel(json));
+      .then(res => res.json())
+    //.then(json => setCarousel(json))
+
+  }
+
+  useEffect(() => {
+
+    fetch(config.backendUrl + "/carousel/" + id)
+      .then(res => res.json())
+      .then(json => setCarousel(json));
+  }, [id]);
+
+  const edit = () => {
+    const updateCarousel = {
+      "id": idRef.current.value, 
+      "src": srcRef.current.value,
+      "alt": altRef.current.value,
+      "header": headerRef.current.value,
+      "description": dscRef.current.value,
     }
-    
+    fetch(config.backendUrl + "/carousel/edit", {
+      method: "PUT",
+      body: JSON.stringify(updateCarousel),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(json => setCarousel(json))
+  }
+
+  const deleteCarousel = (id) => {
+    fetch(config.backendUrl + "/carousel/delete/" + id, {
+      method: "DELETE"
+    })
+      .then(res => res.json())
+      .then(data => setCarousel(data))
+  }
+
   return (
-    
+
     <div>
-    <table>
-    <thead>
-      <tr>
-        <th>Sources</th>
-        <th>Alt</th>
-        <th>Header</th>
-        <th>Description</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {carousels.map( carousel=>
-      <tr key={carousel.id}>
-        <td>{carousel.src}</td>
-        <td>{carousel.alt}</td>
-        <td>{carousel.header}</td>
-        <td>{carousel.description}</td>
-        <td>
-          {/* <button onClick={() => add()}>Lisa</button> */}
-        </td>
-      </tr>)}
-    </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Sources</th>
+            <th>Alternative</th>
+            <th>Header</th>
+            <th>Description</th>
+            <th>Id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {carousels.map(carousel =>
+            <tr key={carousel.id}>
+              <td><input type='text' defaultValue={carousel.src} /></td>
+              <td><input type='text' defaultValue={carousel.alt} /></td>
+              <td><input type='text' defaultValue={carousel.header} /></td>
+              <td><input type='text' defaultValue={carousel.description} /></td>
+              <td>{carousel.id}</td>
+              <td><button onClick={edit}>Edit</button></td>
+              <td><button onClick={() => deleteCarousel(carousel.id)}>Delete</button></td>
+            </tr>
+
+          )}
+        </tbody>
+      </table>
+      <div>
+        <label>Name</label> <br />
+        <input ref={srcRef} type="text" /> <br />
+        <label>Alternative</label> <br />
+        <input ref={altRef} type="text" /> <br />
+        <label>Header</label> <br />
+        <input ref={headerRef} type="text" /> <br />
+        <label>Description</label> <br />
+        <input ref={dscRef} type="text" /> <br />
+        <button onClick={add}>Add Carousel</button>
+      </div>
+
+
+
     </div>
   )
 }
