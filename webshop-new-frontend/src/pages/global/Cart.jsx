@@ -8,9 +8,16 @@ import ParcelMachines from '../../components/cart/ParcelMachines';
 import Payment from '../../components/cart/Payment';
 import { CartSumContext } from '../../store/CartSumContext';
 
+
+
 function Cart() {
   const [cart, updateCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
   const { setCartSum } = useContext(CartSumContext);
+
+  const cartProductData = cart.map(element => ({
+    id: element.product.id,
+    // Add other properties you need
+  }));
 
   function clearCart() {
     updateCart([]);
@@ -63,10 +70,11 @@ function Cart() {
 
       <br /><br /><br /><br />
       {cart.map((element, qnr) =>
-      <div className={styles.product_wrapper}>
-        <div className={styles.product} key={element.product.id}>
+      <div className={styles.product_wrapper} key={element.product.id}>
+        <div className={styles.product} >
           <img className={styles.image} src={element.product.image} alt=""></img>
           <div className={styles.name}>{element.product.name}</div>
+          <div className={styles.name}>{element.product.id}</div>
           <div className={styles.price}>{element.product.price} €</div>
           <div className={styles.quantity}>
             <img className={styles.button} onClick={() => decreaseQuantity(qnr)} src="/minus.png" alt="" />

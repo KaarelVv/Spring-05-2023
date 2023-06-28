@@ -5,7 +5,7 @@ import { Spinner } from 'react-bootstrap';
 
 function MaintainProducts() {
   const [products, setProducts] = useState([]);
-  const [dbProducts, setDbProducts] = useState([]);
+  const [dbProducts, setDbProducts] = useState([]); // selle pärast ,et saaks tagasi all products kui otsida
   const searchedRef = useRef();
   const [isLoading, setLoading] = useState(true);
 
@@ -14,7 +14,7 @@ function MaintainProducts() {
       .then(res => res.json())
       .then(json => {
         setProducts(json || []);
-        
+        setDbProducts(json);
         setLoading(false);
       })
   }, []);
@@ -28,10 +28,11 @@ function MaintainProducts() {
   };
 
   const searchFromProducts = () => {
-    const result = products.filter(e =>
-      e.name.toLowerCase().includes(searchedRef.current.value.toLowerCase()));
+    const result = dbProducts.filter(e =>
+      e.name?.toLowerCase().includes(searchedRef.current.value.toLowerCase())
+      );
     setProducts(result);
-  }
+  };
   const increaseStock = (id) => {
 
     fetch(`http://localhost:8080/increase-stock/${id}`, { method: "PATCH" })
@@ -86,8 +87,8 @@ function MaintainProducts() {
                   <button>Edit</button>
                 </Link>
                 <button onClick={() => deleteProduct(element.id)}>Delete</button>
-                <button onClick={() => increaseStock(element.id)}>Suurenda</button>
-                <button onClick={() => decreaseStock(element.id)}>Vähenda</button>
+                <button onClick={() => increaseStock(element.id)}>Increase</button>
+                <button onClick={() => decreaseStock(element.id)}>Decrease</button>
               </td>
             </tr>
           )}

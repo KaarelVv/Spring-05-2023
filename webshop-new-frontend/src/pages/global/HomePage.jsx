@@ -76,7 +76,7 @@ function HomePage() {
         categories={categories}
       />
       
-      <img className="ad" src={"https://picsum.photos/id/237/100/300"} alt="" />
+      <img className="ad" src={"http://picsum.photos/id/237/100/300"} alt="" />
       
       <Pagination>
         {pages.map(number => 

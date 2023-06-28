@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import config from '../../data/config.json';
 
 function ParcelMachines() {
-  const [parcelMachines, setParcelMachines] = useState([]);
+  const [parcelMachines, setParcelMachines] = useState({});
 
   useEffect(() => {
     // PAKIAUTOMAADID BACK-ENDIST
@@ -11,7 +11,7 @@ function ParcelMachines() {
       .then(res => res.json())
       .then(json => {
         setParcelMachines(json);
-        console.log(typeof parcelMachines);
+        // console.log(typeof parcelMachines);
       })
   }, []);
 

@@ -52,14 +52,14 @@ function AddProduct() {
       toast("Description not filled");
       return;
     }
-    const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
+    // const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
 
     const addProduct = {
 
       "name": nameRef.current.value,
       "price": Number(priceRef.current.value),
       "image": imageRef.current.value,
-      "category": selectedCategory,
+      "category": {"id":categoryRef.current.value},
       "description": descriptionRef.current.value,
       "active": activeRef.current.value.checked,
     }
@@ -98,7 +98,7 @@ function AddProduct() {
       <label> {t("category")}:</label>
       <select ref={categoryRef}>
         <option value="">Vali kategooria!</option>
-        {categories.map(category => <option key={category.name}>{category.name}</option>)}
+        {categories.map(category => <option key={category.name} value={category.id}>{category.name}</option>)}
       </select> <br />
       <label> {t("description")}:</label>
       <input ref={descriptionRef} type="text" /> <br />

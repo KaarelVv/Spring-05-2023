@@ -26,20 +26,20 @@ function Shops() {
 	return (<div>
 		<Button onClick={() => setCoordinates({ lngLat: [58.94, 25.47], zoom: 7 })}>Kõik poed</Button>
 
-		{isLoading === false ? <Spinner /> :
+		{/* {isLoading === false ? <Spinner /> :
 			<>
 				{shops.map(e =>
 					<Button key={e.name} onClick={() => coordinateSetiing(e.coordinates)}>{e.name}</Button>
 				)}
-			</>}
+			</>} */}
 
 		<Button onClick={() => setCoordinates({ lngLat: [58.3778125409, 26.73034625013], zoom: 13 })}>Tasku</Button>
 
-		{/* {shops.map(shop => 
+		{shops.map(shop => 
 		<Button key= {shop.id} onClick={() => 
 		setCoordinates({ lngLat: [shop.latitude, shop.longitude], 
 		zoom: 13 })}>{shop.name}
-		</Button>)} */}
+		</Button>)}
 		<div>Shops:</div>
 		<Map mapCoordinaates={coordinates} />
 

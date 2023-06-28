@@ -19,7 +19,7 @@ function CarouselGallery() {
     <Carousel>
      {carouselItems.map(carouselItem => (
         <Carousel.Item key={carouselItem.id}>
-          <img className='home-product img' src={carouselItem.src} alt={carouselItem.alt} />
+          <img  src={carouselItem.src} alt={carouselItem.alt} />
           <Carousel.Caption>
             <h3>{carouselItem.header}</h3>
             <p>{carouselItem.description}</p>

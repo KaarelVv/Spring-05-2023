@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { AuthContext } from '../../store/AuthContext';
+import config from "../../data/config.json";
 
 function Profile() {
   const nameRef = useRef();
@@ -13,7 +14,9 @@ function Profile() {
     }
 
     // TODO: Backendi päring
-    fetch()
+    fetch(config.backendUrl + "person")
+    .then(res => res.json())
+    .then(data => data.json())
   }
 
   return (

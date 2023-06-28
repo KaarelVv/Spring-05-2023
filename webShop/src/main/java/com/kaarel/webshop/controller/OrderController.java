@@ -2,15 +2,20 @@ package com.kaarel.webshop.controller;
 
 import com.kaarel.webshop.entity.Order;
 import com.kaarel.webshop.entity.Product;
+import com.kaarel.webshop.model.EverypayData;
 import com.kaarel.webshop.model.EverypayLink;
 import com.kaarel.webshop.repository.OrderRepository;
 import com.kaarel.webshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
 @RestController
+
 public class OrderController {
 
     @Autowired
@@ -46,11 +51,21 @@ public class OrderController {
         EverypayLink everypayLink = orderService.getEverypayLink(sum, dbOrder);
         return everypayLink;
     }
+    @PostMapping("payment/{personId}/{sum}")
+    public EverypayLink payment1(@PathVariable Long personId , @PathVariable double sum) throws Exception {
+
+        List originalProduct = Collections.EMPTY_LIST;
+
+
+        Order dbOrder = orderService.saveOrderToDb(personId, originalProduct, sum);
+
+        EverypayLink everypayLink = orderService.getEverypayLink(sum, dbOrder);
+        return everypayLink;
+    }
+
     @GetMapping("check-payment/{paymentReference}")
     public Order checkPayment(@PathVariable String paymentReference){
-
         Order order = orderService.checkIfOrderPaid(paymentReference);
-
         return order;
     }
     //http://localhost:8080/check-payment/c6d0914ff12c04ab04d384c4cbb46e5977311c636e0aac34ceac837737ce70bc

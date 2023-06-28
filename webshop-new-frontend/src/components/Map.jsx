@@ -53,7 +53,7 @@ function Map(props) {
             Ülemiste keskus. <br /> Avatud 9-20
           </Popup>
         </Marker> */}
-        <Marker position={[59.4266, 24.7245]}>
+        {/* <Marker position={[59.4266, 24.7245]}>
           <Popup>
             Kristiine keskus. <br /> Avatud 10-21
           </Popup>
@@ -62,7 +62,7 @@ function Map(props) {
           <Popup>
             Tasku keskus. <br /> Avatud 9-21
           </Popup>
-        </Marker>
+        </Marker> */}
 
       </MapContainer>
     </div>)

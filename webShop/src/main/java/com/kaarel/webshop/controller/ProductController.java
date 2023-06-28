@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.concurrent.ExecutionException;
 
-@CrossOrigin("http://localhost:3000")
+
 @RestController
+
 public class ProductController {
 
     @Autowired

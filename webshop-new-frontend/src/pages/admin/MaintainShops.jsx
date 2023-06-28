@@ -46,7 +46,7 @@ const deleteShop = (id) => {
 
   return (
     <div>
-      {shops.length === 0 && <div>No categories!</div>}
+      {shops.length === 0 && <div>No shops!</div>}
       <label>Name:</label> <br />
       <input ref={nameRef} type="text" /> <br />
       <label>Latitude:</label><br />

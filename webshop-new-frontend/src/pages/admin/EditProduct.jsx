@@ -37,8 +37,7 @@ function EditProduct() {
   }, [id]);
 
   const edit = () => {
-    const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
-
+    // const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
 
     const updatedProduct = {
       "id": id,
@@ -47,32 +46,24 @@ function EditProduct() {
       "price": Number(priceRef.current.value),
       "image": imageRef.current.value,
       "active": activeRef.current.checked,
-      "category": selectedCategory,
+      "category": {"id":categoryRef.current.value},
       "stock": product.stock,
-
-
     }
 
-
-    // TODO: BACKENDI PÄRING
     fetch(config.backendUrl + "/product/edit", {
       method: "PUT",
       body: JSON.stringify(updatedProduct),
       headers: {
-        "Content-Type": "application/json",},
+        "Content-Type": "application/json",
+      },
     })
       .then(res => res.json())
       .then((json) => {
         console.log(json);
         setProduct(json);
-        
+
       })
-
   }
- 
-
-
-
   if (isLoading === true) {
     return <Spinner variant="primary" />
   }
@@ -92,8 +83,8 @@ function EditProduct() {
           <label>Category</label> <br />
           <select ref={categoryRef} defaultValue={product.category}>
             <option value="">Vali kategooria!</option>
-            {categories.map(category => <option key={category.name}>{category.name}</option>)} 
-           </select> <br />
+            {categories.map(category => <option key={category.name} value={category.id}>{category.name}</option>)}
+          </select> <br />
 
           <label>Description</label> <br />
           <input ref={descriptionRef} type="text" defaultValue={product.description} /> <br />

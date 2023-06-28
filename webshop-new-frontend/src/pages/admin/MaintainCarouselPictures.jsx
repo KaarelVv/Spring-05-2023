@@ -4,7 +4,7 @@ import { json, useParams } from 'react-router-dom';
 
 function MaintainCarouselPictures() {
   const carouselRef = useRef();
-  const { id } = useParams();
+  // const { id } = useParams();
   const idRef = useRef();
   const srcRef = useRef();
   const altRef = useRef();
@@ -26,7 +26,7 @@ function MaintainCarouselPictures() {
   function add() {
 
     const newCarousel = {
-      "id": id,
+      
       "src": srcRef.current.value,
       "alt": altRef.current.value,
       "header": headerRef.current.value,
@@ -44,16 +44,16 @@ function MaintainCarouselPictures() {
 
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    fetch(config.backendUrl + "/carousel/" + id)
-      .then(res => res.json())
-      .then(json => setCarousel(json));
-  }, [id]);
+  //   fetch(config.backendUrl + "/carousel/" + id)
+  //     .then(res => res.json())
+  //     .then(json => setCarousel(json));
+  // }, [id]);
 
   const edit = () => {
     const updateCarousel = {
-      "id": idRef.current.value, 
+      "id": idRef.current.value,
       "src": srcRef.current.value,
       "alt": altRef.current.value,
       "header": headerRef.current.value,
@@ -105,7 +105,7 @@ function MaintainCarouselPictures() {
         </tbody>
       </table>
       <div>
-        <label>Name</label> <br />
+        <label>Sources</label> <br />
         <input ref={srcRef} type="text" /> <br />
         <label>Alternative</label> <br />
         <input ref={altRef} type="text" /> <br />
@@ -115,9 +115,6 @@ function MaintainCarouselPictures() {
         <input ref={dscRef} type="text" /> <br />
         <button onClick={add}>Add Carousel</button>
       </div>
-
-
-
     </div>
   )
 }

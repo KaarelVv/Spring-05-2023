@@ -14,8 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-@CrossOrigin("http://localhost:3000")
+
 @RestController
+
 public class ParcelMachineController {
     // 1 @PathVariable     URL:  parcel-machines/{country}       parcel-machines/EE
     // 5+ @RequestBody      URL:  parcel-machines    POST, PUT   {"country": EE}  <--- eraldi mudel
