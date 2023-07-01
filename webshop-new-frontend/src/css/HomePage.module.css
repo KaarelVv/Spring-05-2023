@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 10px;
-  margin-right: 120px;
+  margin-right: 100px;
 }
 
 .home-product {
@@ -16,6 +16,6 @@
 }
 
 .home-product img {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }

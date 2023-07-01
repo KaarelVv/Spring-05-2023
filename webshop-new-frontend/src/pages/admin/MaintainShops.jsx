@@ -51,7 +51,7 @@ const deleteShop = (id) => {
       <input ref={nameRef} type="text" /> <br />
       <label>Latitude:</label><br />
       <input ref={latitudeRef} type="number" /> <br />
-      <label> Longitude:</label><br />
+      <label>Longitude:</label><br />
       <input ref={longitudRef} type="number" /><br />
       <label>Open times:</label><br/>
       <input ref={openTimeRef} type="text" /><br />

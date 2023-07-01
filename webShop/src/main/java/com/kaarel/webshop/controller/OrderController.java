@@ -1,6 +1,7 @@
 package com.kaarel.webshop.controller;
 
 import com.kaarel.webshop.entity.Order;
+import com.kaarel.webshop.entity.OrderRow;
 import com.kaarel.webshop.entity.Product;
 import com.kaarel.webshop.model.EverypayData;
 import com.kaarel.webshop.model.EverypayLink;
@@ -39,29 +40,26 @@ public class OrderController {
 
     //LISAME ORDER ANDMEBAASI SEL HETKEL KUI MAKSET ALUSTATAKSE
     @PostMapping("payment/{personId}")
-    public EverypayLink payment(@PathVariable Long personId , @RequestBody List<Product> products) throws Exception {
+    public EverypayLink payment(@PathVariable Long personId , @RequestBody List<OrderRow> orderRow) throws Exception {
 
-        List<Product> originalProduct = orderService.getDbProducts(products);
+        List<OrderRow> originalProduct = orderService.getDbProducts(orderRow);
         //(Product ::getPrice) --saab ka nii kuid siis ei saa juuurde arvutada summat
-        double sum =  originalProduct.stream().mapToDouble(Product ::getPrice).sum(); // võtta igaühe juurest ID ja leida ta andmebaasist
+        double sum =  originalProduct.stream().mapToDouble(e -> e.getProduct().getPrice() * e.getQuantity()).sum();
         // cache Google Guava
+        // double sum =  originalProduct.stream().mapToDouble(Product ::getPrice).sum(); <- vana süsteemi järgi
 
         Order dbOrder = orderService.saveOrderToDb(personId, originalProduct, sum);
 
         EverypayLink everypayLink = orderService.getEverypayLink(sum, dbOrder);
         return everypayLink;
     }
-    @PostMapping("payment/{personId}/{sum}")
-    public EverypayLink payment1(@PathVariable Long personId , @PathVariable double sum) throws Exception {
-
-        List originalProduct = Collections.EMPTY_LIST;
-
-
-        Order dbOrder = orderService.saveOrderToDb(personId, originalProduct, sum);
-
-        EverypayLink everypayLink = orderService.getEverypayLink(sum, dbOrder);
-        return everypayLink;
-    }
+//    @PostMapping("payment/{personId}/{sum}")
+//    public EverypayLink payment1(@PathVariable Long personId , @PathVariable double sum) throws Exception {
+//        List originalProduct = Collections.EMPTY_LIST;
+//        Order dbOrder = orderService.saveOrderToDb(personId, originalProduct, sum);
+//        EverypayLink everypayLink = orderService.getEverypayLink(sum, dbOrder);
+//        return everypayLink;
+//    }
 
     @GetMapping("check-payment/{paymentReference}")
     public Order checkPayment(@PathVariable String paymentReference){

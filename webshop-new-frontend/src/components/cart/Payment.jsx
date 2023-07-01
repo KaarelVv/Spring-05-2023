@@ -8,7 +8,7 @@ import config from "../../data/config.json";
 function Payment(props) {
   
 
-  const { sum } = props;
+  // const { sum, products } = props;
 
   const [link, setLink] = useState();
 
@@ -24,17 +24,19 @@ function Payment(props) {
 
 function pay() {
     // const cartProducts =
+
+    console.log(props.products);
       
     
-    fetch(config.backendUrl + "/payment/1/" + sum, {
+    fetch(config.backendUrl + "/payment/1", {
       method: "POST",
-      body: JSON.stringify(),
+      body: JSON.stringify(props.products),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then(response => response.json())
-      .then(data => setLink(data));
+      .then(data => window.location.href= data.link);
   
   }
 

@@ -19,6 +19,7 @@ import { AuthContext } from './store/AuthContext';
 import Profile from './pages/auth/Profile';
 import CheckPayment from './pages/global/CheckPayment';
 import MaintainCarouselPictures from './pages/admin/MaintainCarouselPictures';
+import Persons from './pages/admin/Persons';
 
 function App() {
   const { loggedIn } = useContext(AuthContext);
@@ -42,6 +43,8 @@ function App() {
           <Route path="admin/maintain-categories" element={ <MaintainCategories /> } />
           <Route path="admin/maintain-carousel" element={ <MaintainCarouselPictures/> } />
           <Route path="admin/maintain-shops" element={ <MaintainShops /> } />  
+          <Route path="admin/persons" element={ <Persons /> } />  
+
         </>}
         <Route path="login" element={ <Login /> } />
         <Route path="signup" element={ <Signup /> } />

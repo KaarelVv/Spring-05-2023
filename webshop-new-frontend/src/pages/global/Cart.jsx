@@ -96,7 +96,7 @@ function Cart() {
       <React.Fragment>
         <ParcelMachines />
 
-        <Payment sum={calcSum()} />
+        <Payment sum={calcSum()} products={cart} />
 
       </React.Fragment>}
 

@@ -10,6 +10,10 @@ function Profile() {
 
   const changeProfile = () => {
     const payLoad = {
+      
+      "firstName":nameRef.current.value,
+      "email":emailRef.current.value,
+      
       "????": true
     }
 

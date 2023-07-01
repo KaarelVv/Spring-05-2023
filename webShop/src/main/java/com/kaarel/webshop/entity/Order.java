@@ -23,8 +23,8 @@ public class Order {
     private String paid;
     private double totalSum ;
     private Date creationDate;
-    @ManyToMany
-    private List<Product> productList;
+    @OneToMany
+    private List<OrderRow> orderRows;
     @ManyToOne
     private Person person;
 

@@ -62,8 +62,6 @@ public class PersonController {
         List<PersonDto> personDtos = persons.stream()
                 .map(e-> modelMapper.map(e,PersonDto.class))
                 .collect(Collectors.toList());
-
-
         return ResponseEntity.ok().body(personDtos);
     }
 
@@ -81,15 +79,15 @@ public class PersonController {
     }
 
     //POST localhost:8080/person
-    @PostMapping("person")
-    public ResponseEntity<List<Person>> addPerson(@RequestBody Person person) throws Exception {
-        if (person.getId()==null ||!personRepository.existsById(person.getId())) {
-            personRepository.save(person);
-        }else{
-            throw new Exception("Id juba olemas");
-        }
-        return  ResponseEntity.status(HttpStatus.CREATED).body(personRepository.findAll());
-    }
+//    @PostMapping("person")
+//    public ResponseEntity<List<Person>> addPerson(@RequestBody Person person) throws Exception {
+//        if (person.getId()==null ||!personRepository.existsById(person.getId())) {
+//            personRepository.save(person);
+//        }else{
+//            throw new Exception("Id juba olemas");
+//        }
+//        return  ResponseEntity.status(HttpStatus.CREATED).body(personRepository.findAll());
+//    }
 
     //POST localhost:8080/person
     @PutMapping("person")

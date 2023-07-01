@@ -5,6 +5,10 @@ import config from "../../data/config.json";
 
 function CarouselGallery() {
   const [carouselItems, setCarouselItems] = useState([]);
+  const imageStyle = {
+    width: '500px',
+    height: '300px'
+  };
 
   useEffect(() => {
     fetch(config.backendUrl + "/carousel")
@@ -19,7 +23,7 @@ function CarouselGallery() {
     <Carousel>
      {carouselItems.map(carouselItem => (
         <Carousel.Item key={carouselItem.id}>
-          <img  src={carouselItem.src} alt={carouselItem.alt} />
+          <img  src={carouselItem.src} alt={carouselItem.alt} style={imageStyle} />
           <Carousel.Caption>
             <h3>{carouselItem.header}</h3>
             <p>{carouselItem.description}</p>

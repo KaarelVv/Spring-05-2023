@@ -22,7 +22,9 @@ function MaintainProducts() {
   const deleteProduct = (id) => {
 
     // TODO: Backendi päring
-    fetch(`http://localhost:8080/product/delete/${id}`, { method: "DELETE" })
+    fetch(`http://localhost:8080/product/delete/${id}`, { 
+      method: "DELETE" 
+    })
       .then(res => res.json())
       .then(data => setProducts(data))
   };

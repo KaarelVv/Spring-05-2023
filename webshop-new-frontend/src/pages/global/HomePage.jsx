@@ -16,7 +16,7 @@ function HomePage() {
   const [isLoading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const productsInPage = 3;
+  const productsInPage = 5;
 
   const pages = [];
   for (let number = 1; number <= Math.ceil(filteredProducts.length/productsInPage); number++) {

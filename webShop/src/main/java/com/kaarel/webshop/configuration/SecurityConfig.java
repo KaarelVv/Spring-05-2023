@@ -38,9 +38,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
        return httpSecurity
+               .cors().and().headers().xssProtection().disable().and()
+                .csrf().disable()
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("product").permitAll()
                         .requestMatchers("categories").permitAll()
+                        .requestMatchers("person/**").permitAll()
+                        .requestMatchers("carousel").permitAll()
+                        .requestMatchers("payment/**").permitAll()
+                        .requestMatchers("parcel-machines/**").permitAll()
+                        .requestMatchers("login/**").permitAll()
+                        .requestMatchers("signup").permitAll()
+
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(tokenParser, BasicAuthenticationFilter.class).build();

@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     //POST localhost:8080/product
-    @PostMapping("product/add")
+    @PostMapping("product")
     public List<Product> addProducts(@RequestBody Product product) {
         if (product.getId() == null || !productRepository.existsById(product.getId())) {
             productRepository.save(product);
@@ -59,7 +59,7 @@ public class ProductController {
 
 
     //POST localhost:8080/product
-    @PutMapping("product/edit")
+    @PutMapping("product")
     public List<Product> editProducts(@RequestBody Product product) {
         if (productRepository.existsById(product.getId())) {
             productRepository.save(product);

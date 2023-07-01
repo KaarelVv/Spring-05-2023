@@ -1,9 +1,11 @@
-import React, { useContext, useRef, useState } from 'react'
-import { AuthContext } from '../../store/AuthContext'
+import React, { useContext, useRef, useState } from 'react';
+import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import config from "../../data/config.json";
+import {Link} from "react-router-dom";
 
 function Login() {
-  const url = ""
+  const url = "/";
   const { setLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -14,12 +16,18 @@ function Login() {
     const payLoad = {
       "email": emailRef.current.value,
       "password": passwordRef.current.value,
-      "????": true
+      // "????": true
     }
 
 
     // TODO: Backendi päring
-    fetch()
+    fetch(config.backendUrl + "/login", {
+      method:"POST",
+      body: JSON.stringify(payLoad),
+      headers: {
+        Authorization: "123", 
+        "Content-Type": "application/json"},
+    })
 
    
   }
@@ -31,7 +39,9 @@ function Login() {
       <input ref={emailRef} type="text" /> <br />
       <label>Parool</label> <br />
       <input ref={passwordRef} type="text" /> <br />
+      {/* <Link to={url}> */}
       <button onClick={login}>Logi sisse</button>
+      {/* </Link> */}
     </div>
   )
 }

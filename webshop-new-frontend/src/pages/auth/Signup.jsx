@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { AuthContext } from '../../store/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import config from "../../data/config.json"
 
 function Signup() {
   const url = ""
@@ -14,16 +15,23 @@ function Signup() {
     const payLoad = {
       "email": emailRef.current.value,
       "password": passwordRef.current.value,
-      "????": true
+      // "?????": true
     }
 
 
     // TODO: Backendi päring
-    fetch()
+    fetch(config.backendUrl + "/signup", {
+      method: "POST",
+      body: JSON.stringify(payLoad),
+      headers: {
+        Authorization: "123",
+        "Content-Type": "application/json"
+      }
+    })
 
-   
+
   }
- 
+
   return (
     <div>
       <div>{message}</div>
