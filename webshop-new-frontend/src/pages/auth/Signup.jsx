@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import config from "../../data/config.json"
 
 function Signup() {
-  const url = ""
+  const url = "";
   const { setLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -15,11 +15,9 @@ function Signup() {
     const payLoad = {
       "email": emailRef.current.value,
       "password": passwordRef.current.value,
-      // "?????": true
+      // "?????": true 
     }
 
-
-    // TODO: Backendi päring
     fetch(config.backendUrl + "/signup", {
       method: "POST",
       body: JSON.stringify(payLoad),
@@ -28,10 +26,18 @@ function Signup() {
         "Content-Type": "application/json"
       }
     })
-
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) { //??
+          // Registration successful
+          setLoggedIn(true); // Update the authentication state
+          navigate(url); // Redirect to the dashboard or desired page
+        } else {
+          setMessage(data.message); //Id juba kasutusel ?
+        }
+      })
 
   }
-
   return (
     <div>
       <div>{message}</div>
@@ -40,6 +46,7 @@ function Signup() {
       <label>Parool</label> <br />
       <input ref={passwordRef} type="text" /> <br />
       <button onClick={signup}>Registreeru</button>
+      
     </div>
   )
 }

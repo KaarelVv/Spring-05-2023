@@ -33,7 +33,7 @@ function Shops() {
 				)}
 			</>} */}
 
-		<Button onClick={() => setCoordinates({ lngLat: [58.3778125409, 26.73034625013], zoom: 13 })}>Tasku</Button>
+		{/* <Button onClick={() => setCoordinates({ lngLat: [58.3778125409, 26.73034625013], zoom: 13 })}>Tasku</Button> */}
 
 		{shops.map(shop => 
 		<Button key= {shop.id} onClick={() => 

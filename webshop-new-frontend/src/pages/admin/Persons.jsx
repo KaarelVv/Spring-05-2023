@@ -48,10 +48,7 @@ function Persons() {
             <td>{person.creationDate}</td>
             <td>{person.password}</td>
             <td><button onClick={()=>deletePerson(person.id)}>X</button></td>
-
-            
-
-          </tr>)}
+</tr>)}
         </tbody>
       </table>
 

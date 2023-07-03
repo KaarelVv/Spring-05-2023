@@ -2,10 +2,10 @@ import React, { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import config from "../../data/config.json";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login() {
-  const url = "/";
+  const url = "";
   const { setLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -19,19 +19,27 @@ function Login() {
       // "????": true
     }
 
-
-    // TODO: Backendi päring
     fetch(config.backendUrl + "/login", {
-      method:"POST",
+      method: "POST",
       body: JSON.stringify(payLoad),
       headers: {
-        Authorization: "123", 
-        "Content-Type": "application/json"},
+        Authorization: "123",
+        "Content-Type": "application/json"
+      },
     })
+      .then(response => response.json())
+    // .then(data => {
+    //   if (data.success) {
+    //     setLoggedIn(true);
+    //     navigate('/dashboard');
+    //   } else {
+    //     setMessage(data.message);
+    //   }
+    // });
 
-   
+
   }
- 
+
   return (
     <div>
       <div>{message}</div>
