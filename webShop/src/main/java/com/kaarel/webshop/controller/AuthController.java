@@ -6,10 +6,8 @@ import com.kaarel.webshop.model.LoginData;
 import com.kaarel.webshop.repository.PersonRepository;
 import com.kaarel.webshop.security.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +32,7 @@ public class AuthController {
 
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if(encoder.matches(loginData.getPassword(), person.getPassword())){
-            authToken.setToken(tokenGenerator.generateToken());
+            authToken.setToken(tokenGenerator.generateToken(person.getEmail()));
         }
         return ResponseEntity.ok().body(authToken);
     }
@@ -48,7 +46,7 @@ public class AuthController {
             person.setPassword(hashedPassword);
             person.setCreationDate(new Date());
             personRepository.save(person);
-            authToken.setToken(tokenGenerator.generateToken());
+            authToken.setToken(tokenGenerator.generateToken(person.getEmail()));
         }else{
             throw new Exception("Id juba olemas");
         }

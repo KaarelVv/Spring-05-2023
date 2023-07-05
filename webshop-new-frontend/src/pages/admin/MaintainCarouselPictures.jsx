@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import config from "../../data/config.json";
-import { json, useParams } from 'react-router-dom';
+
 
 function MaintainCarouselPictures() {
-  const carouselRef = useRef();
-  // const { id } = useParams();
+  
+  
   const idRef = useRef();
   const srcRef = useRef();
   const altRef = useRef();

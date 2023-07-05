@@ -2,7 +2,11 @@
   "nav": {
     "admin": "To admin view",
     "shops": "Our shops",
-    "cart": "To cart"
+    "cart": "To cart",
+    "log_in": "Log In",
+    "log_out": "Log Out",
+    "sign_up": "Sign up",
+    "orders": "Orders"
   },
   "maintain-categories": "Maintain categories",
   "maintain-shops": "Maintain shops",
@@ -10,6 +14,7 @@
   "maintain-products": "Maintain products",
   "maintain-carousel": "Maintain carousel",
   "maintain-persons": "Maintain-persons",
+  "show-orders": "Show orders",
   "sort": {
     "sorteeriAZ":"Sort A-Z",
     "sorteeriZA":"Sort Z-A",

@@ -15,6 +15,8 @@ function AdminHome() {
       <Button variant="primary" as={Link} to="/admin/maintain-carousel">{t("maintain-carousel")}</Button>{' '}
       <Button variant="primary" as={Link} to="/admin/maintain-shops">{t("maintain-shops")}</Button>{' '}
       <Button variant="primary" as={Link} to="/admin/persons">{t("maintain-persons")}</Button>{' '}
+      <Button variant="primary" as={Link} to="/admin/all-orders">{t("show-orders")}</Button>{' '}
+      
     </div>
   )
 }

@@ -11,6 +11,7 @@ import EditProduct from "./pages/admin/EditProduct";
 import MaintainProducts from "./pages/admin/MaintainProducts";
 import MaintainCategories from "./pages/admin/MaintainCategories";
 import MaintainShops from "./pages/admin/MaintainShops";
+import Order from "./pages/global/Order";
 import NavigationBar from './components/NavigationBar';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
@@ -20,6 +21,7 @@ import Profile from './pages/auth/Profile';
 import CheckPayment from './pages/global/CheckPayment';
 import MaintainCarouselPictures from './pages/admin/MaintainCarouselPictures';
 import Persons from './pages/admin/Persons';
+import AllOrders from './pages/admin/AllOrders';
 
 function App() {
   const { loggedIn } = useContext(AuthContext);
@@ -34,6 +36,7 @@ function App() {
         <Route path="shops" element={ <Shops /> } />
         <Route path="product/:id" element={ <SingleProduct /> } />
         <Route path="payment" element={ <CheckPayment /> } />
+        <Route path="order" element={ <Order/> } />
         {true && <>
           <Route path="profile" element={ <Profile /> } />
           <Route path="admin" element={ <AdminHome /> } />
@@ -44,6 +47,8 @@ function App() {
           <Route path="admin/maintain-carousel" element={ <MaintainCarouselPictures/> } />
           <Route path="admin/maintain-shops" element={ <MaintainShops /> } />  
           <Route path="admin/persons" element={ <Persons /> } />  
+          <Route path="admin/all-orders" element={ <AllOrders/> } />
+          <Route path="order" element={ <Order/> } />  
 
         </>}
         <Route path="login" element={ <Login /> } />

@@ -9,14 +9,14 @@ function Persons() {
   const deletePerson = (id) => {
     fetch(config.backendUrl + "/person/" + id ,  {
       method: "DELETE",
-      headers: { Authorization: "123" }})
+      headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }})
     .then(res => res.json())
     .then(json => setPerson(json))
   }
 
   useEffect(() => {
     fetch(config.backendUrl + "/person", {
-       headers: { Authorization: "123" } 
+       headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") } 
       })
       .then(res => res.json())
       .then(json => setPerson(json))

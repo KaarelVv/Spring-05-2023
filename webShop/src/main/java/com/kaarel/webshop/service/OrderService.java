@@ -118,15 +118,15 @@ public class OrderService {
     public Order checkIfOrderPaid(String paymentReference) {
 
         String username = everypayUsername;
-        String url = everypayUrl + paymentReference + "?api_username=" + username;
+        String url = everypayUrl + "/payments/" + paymentReference + "?api_username=" + username;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, everypayAuhorization);
         HttpEntity httpEntity = new HttpEntity<>(headers);
 
         ResponseEntity<EverypayPaymentState> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, EverypayPaymentState.class);
-
         EverypayPaymentState httpBody = response.getBody();
+
         Order order = orderRepository.findById(Long.valueOf(httpBody.order_reference)).get();
         String orderStatus = httpBody.payment_state;
 

@@ -3,11 +3,9 @@ package com.kaarel.webshop.controller;
 import com.kaarel.webshop.entity.Person;
 import com.kaarel.webshop.model.PersonDto;
 import com.kaarel.webshop.repository.PersonRepository;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Log4j2//Iga klass tuleb eraldi annoteerida kui vaja logida
 @RestController
 
@@ -23,22 +22,27 @@ public class PersonController {
     PersonRepository personRepository;
 
 
-
-
     //Get all persons localhost:8080/person
     @GetMapping("person")
-    public ResponseEntity<List<Person>> getPersons(){
+    public ResponseEntity<List<Person>> getPersons() {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         log.info(email);
         return ResponseEntity.ok().body(personRepository.findAll());
     }
 
+    @GetMapping("person-account")
+    public Person getPersonAccount() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Person person = personRepository.findPersonByEmail(email);
+        return person;
+    }
+
     @GetMapping("person-public2")
-    public List<PersonDto> getPersonsPublic2(){
+    public List<PersonDto> getPersonsPublic2() {
         List<Person> persons = personRepository.findAll();
         List<PersonDto> personDtos = new ArrayList<>();
-        for (Person p:persons){
-            PersonDto personDto= new PersonDto();
+        for (Person p : persons) {
+            PersonDto personDto = new PersonDto();
             personDto.setFirstName(p.getFirstName());
             personDto.setLastName(p.getFirstName());
             personDto.setEmail(p.getEmail());
@@ -47,37 +51,45 @@ public class PersonController {
         }
         return personDtos;
     }
+
     @Autowired
     ModelMapper modelMapper;
 
     @GetMapping("person-public")
-    public ResponseEntity<List<PersonDto>> getPersonsPublic(){
+    public ResponseEntity<List<PersonDto>> getPersonsPublic() {
         List<Person> persons = personRepository.findAll();
-//        ModelMapper modelMapper = new ModelMapper(); // @Autowired - Dependency Injection
-//        System.out.println(modelMapper);
-//        log.info(modelMapper);
-//        System.out.println("VIGA");
-//        log.error("VIGA");
+
 
         List<PersonDto> personDtos = persons.stream()
-                .map(e-> modelMapper.map(e,PersonDto.class))
+                .map(e -> modelMapper.map(e, PersonDto.class))
                 .collect(Collectors.toList());
         return ResponseEntity.ok().body(personDtos);
     }
 
     //Get person by id
-    @GetMapping ("person/{id}")
-    public ResponseEntity<Person> getPerson(@PathVariable Long id){
+    @GetMapping("person/{id}")
+    public ResponseEntity<Person> getPerson(@PathVariable Long id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         return ResponseEntity.ok().body(personRepository.findById(id).get());
     }
 
+
     // Delete person
     @DeleteMapping("person/{id}")
-    public ResponseEntity<List<Person>> deletePerson(@PathVariable Long id){
+    public ResponseEntity<List<Person>> deletePerson(@PathVariable Long id) {
         personRepository.deleteById(id);
         return ResponseEntity.ok().body(personRepository.findAll());
     }
 
+    //POST localhost:8080/person
+    @PutMapping("person")
+    public List<Person> editPerson(@RequestBody Person person) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        if (personRepository.existsById(person.getId())) {
+            personRepository.save(person);
+        }
+        return personRepository.findAll();
+    }
     //POST localhost:8080/person
 //    @PostMapping("person")
 //    public ResponseEntity<List<Person>> addPerson(@RequestBody Person person) throws Exception {
@@ -88,13 +100,4 @@ public class PersonController {
 //        }
 //        return  ResponseEntity.status(HttpStatus.CREATED).body(personRepository.findAll());
 //    }
-
-    //POST localhost:8080/person
-    @PutMapping("person")
-    public List<Person> editPerson(@RequestBody Person person){
-        if (personRepository.existsById(person.getId())) {
-            personRepository.save(person);
-        }
-        return personRepository.findAll();
-    }
 }

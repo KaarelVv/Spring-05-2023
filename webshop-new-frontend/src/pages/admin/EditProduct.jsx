@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { json, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import config from "../../data/config.json";
 import { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
@@ -21,7 +21,11 @@ function EditProduct() {
 
   useEffect(() => {
     // TODO: BACKENDI PÄRING
-    fetch(config.backendUrl + "/categories")
+    fetch(config.backendUrl + "/categories", {
+      headers: {
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
+      }
+    })
       .then(res => res.json())
       .then(json => {
         console.log(json);
@@ -31,14 +35,19 @@ function EditProduct() {
 
   useEffect(() => {
     // TODO: BACKENDI PÄRING
-    fetch(config.backendUrl + "/product/" + id)
+    fetch(config.backendUrl + "/product/" + id, {
+      headers: {
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
+      }
+    })
       .then(res => res.json())
-      .then(json => setProduct(json));
+      .then(json => {
+        setProduct(json);
+        setLoading(false);
+      });
   }, [id]);
 
   const edit = () => {
-    // const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
-
     const updatedProduct = {
       "id": id,
       "name": nameRef.current.value,
@@ -46,21 +55,23 @@ function EditProduct() {
       "price": Number(priceRef.current.value),
       "image": imageRef.current.value,
       "active": activeRef.current.checked,
-      "category": {"id":categoryRef.current.value},
+      "category": { "id": categoryRef.current.value },
       "stock": product.stock,
     }
 
-    fetch(config.backendUrl + "/product/edit", {
+    fetch(config.backendUrl + "/product", {
       method: "PUT",
       body: JSON.stringify(updatedProduct),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
       },
     })
       .then(res => res.json())
       .then((json) => {
         console.log(json);
         setProduct(json);
+        navigate("/admin/maintain-products");
 
       })
   }
@@ -81,11 +92,10 @@ function EditProduct() {
           <label>Image</label> <br />
           <input ref={imageRef} type="text" defaultValue={product.image} /> <br />
           <label>Category</label> <br />
-          <select ref={categoryRef} defaultValue={product.category}>
+          <select ref={categoryRef} defaultValue={product.category.id}>
             <option value="">Vali kategooria!</option>
             {categories.map(category => <option key={category.name} value={category.id}>{category.name}</option>)}
           </select> <br />
-
           <label>Description</label> <br />
           <input ref={descriptionRef} type="text" defaultValue={product.description} /> <br />
           <label>Active</label> <br />

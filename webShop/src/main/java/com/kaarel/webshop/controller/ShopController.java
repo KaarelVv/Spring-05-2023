@@ -1,6 +1,5 @@
 package com.kaarel.webshop.controller;
 
-import com.kaarel.webshop.entity.Category;
 import com.kaarel.webshop.entity.Shop;
 import com.kaarel.webshop.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;

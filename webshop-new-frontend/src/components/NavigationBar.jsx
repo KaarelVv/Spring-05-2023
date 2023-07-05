@@ -35,23 +35,25 @@ function NavigationBar() {
             {loggedIn === true && <Nav.Link as={Link} to="/admin">{t("nav.admin")}</Nav.Link>}
             <Nav.Link as={Link} to="/shops">{t("nav.shops")}</Nav.Link>
             <Nav.Link as={Link} to="/cart">{t("nav.cart")}</Nav.Link>
-            {loggedIn === false ? 
+            <Nav.Link as={Link} to="/order">{t("nav.orders")}</Nav.Link>
+            {loggedIn === false ?
               <>
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+                {/* <Nav.Link as={Link} to="/orders">{t("nav.orders")}</Nav.Link> */}
+                <Nav.Link as={Link} to="/login">{t("nav.log_in")}</Nav.Link>
+                <Nav.Link as={Link} to="/signup">{t("nav.sign_up")}</Nav.Link>
               </>
-                : 
+              :
               <>
-              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-              {loggedInUser.users !== undefined && <div>Oled sise logitud: {loggedInUser.users[0].email} {loggedInUser.users[0].displayName}</div>}
-                <button onClick={logout}>Logi välja</button>
+                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                {loggedInUser.users !== undefined && <div>Oled sisse logitud: {loggedInUser.users[0].email} {loggedInUser.users[0].displayName}</div>}
+                <button onClick={logout}>{t("nav.log_out")}</button>
               </>
-              }
+            }
           </Nav>
-          
+
           {/* {loggedIn === false && <button onClick={() => setLoggedIn(true)}>Logi sisse</button>}
           {loggedIn === true && <button onClick={() => setLoggedIn(false)}>Logi välja</button>} */}
-          
+
           <div>{cartSum} €</div>
           <img className="lang" src="/estonian.png" alt="" onClick={() => updateLanguage("en")} />
           <img className="lang" src="/english.png" alt="" onClick={() => updateLanguage("ee")} />

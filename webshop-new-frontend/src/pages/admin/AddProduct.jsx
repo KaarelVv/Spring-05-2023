@@ -3,7 +3,7 @@ import config from "../../data/config.json";
 import { t } from 'i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRef } from 'react';
-import { json } from 'react-router-dom';
+
 
 function AddProduct() {
 
@@ -15,20 +15,21 @@ function AddProduct() {
   const descriptionRef = useRef();
   const activeRef = useRef();
 
- 
+
   const [categories, setCategories] = useState([]);
-  
+
 
   useEffect(() => {
-    fetch(config.backendUrl + "/categories") //võtan kategooriad 
+    fetch(config.backendUrl + "/categories", {
+      headers: {
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
+      }
+    })
       .then(res => res.json())
       .then(json => setCategories(json))
   }, []);
 
-  // useEffect(() => {
-  //   fetch(config.backendUrl + "/product") //võtan tooted ??
-      
-  // }, []);
+
 
   function add() {
 
@@ -59,20 +60,23 @@ function AddProduct() {
       "name": nameRef.current.value,
       "price": Number(priceRef.current.value),
       "image": imageRef.current.value,
-      "category": {"id":categoryRef.current.value},
+      "category": { "id": categoryRef.current.value },
       "description": descriptionRef.current.value,
       "active": activeRef.current.value.checked,
     }
 
     toast(t("product_added"));
     // TODO: BACKENDI PÄRING
-    fetch(config.backendUrl + "/product/add",
+    fetch(config.backendUrl + "/product",
       {
         method: "POST",
         body: JSON.stringify(addProduct),
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
+        },
       })
-     
+
 
 
 
@@ -93,7 +97,7 @@ function AddProduct() {
       <input ref={nameRef} type="text" /> <br />
       <label> {t("price")}:</label><br />
       <input ref={priceRef} type="number" /> <br />
-      <label> {t("image")}:</label><br />
+      <label> {t("image")+" url"}:</label><br />
       <input ref={imageRef} type="text" /><br />
       <label> {t("category")}:</label>
       <select ref={categoryRef}>

@@ -11,11 +11,11 @@ function MaintainShops() {
 
   const [shops, setShops] = useState([]);
   useEffect(() => {
-		
+
     fetch(config.backendUrl + "/shop")
-		.then(res => res.json())
-		.then(data => setShops(data));
-	}, []);
+      .then(res => res.json())
+      .then(data => setShops(data));
+  }, []);
 
   function add() {
 
@@ -25,24 +25,26 @@ function MaintainShops() {
       "latitude": latitudeRef.current.value,
       "longitude": longitudRef.current.value,
       "openTime": openTimeRef.current.value,
-      
-    }
-  fetch(config.backendUrl + "/shop/add", 
-  {
-    method: "POST",
-    body: JSON.stringify(newShop),
-    headers: { "Content-Type": "application/json" }
-  })
-    
-}
-const deleteShop = (id) => {
-  fetch(config.backendUrl + "/shop/delete/" + id, {
-    method: "DELETE"
 
-  })
-    .then(res => res.json())
-    .then(json => setShops(json));
-}
+    }
+    fetch(config.backendUrl + "/shop/add",
+      {
+        method: "POST",
+        body: JSON.stringify(newShop),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(json => setShops(json));
+
+  }
+  const deleteShop = (id) => {
+    fetch(config.backendUrl + "/shop/delete/" + id, {
+      method: "DELETE"
+
+    })
+      .then(res => res.json())
+      .then(json => setShops(json));
+  }
 
   return (
     <div>
@@ -53,7 +55,7 @@ const deleteShop = (id) => {
       <input ref={latitudeRef} type="number" /> <br />
       <label>Longitude:</label><br />
       <input ref={longitudRef} type="number" /><br />
-      <label>Open times:</label><br/>
+      <label>Open times:</label><br />
       <input ref={openTimeRef} type="text" /><br />
       <button onClick={add}>Add</button>
 
@@ -63,7 +65,7 @@ const deleteShop = (id) => {
           <button onClick={() => deleteShop(element.id)}>x</button>
         </div>)}
 
-      </div>
+    </div>
   )
 }
 

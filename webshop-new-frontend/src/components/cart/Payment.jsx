@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import config from "../../data/config.json";
 //import { json, useParams } from 'react-router-dom';
 // import { calcSum } from "./../../pages/global/Cart";
@@ -12,27 +12,20 @@ function Payment(props) {
 
   const [link, setLink] = useState();
 
-  // const [products, setProducts] = useState();
-
-  // useEffect(() => {
-  //   fetch(config.backendUrl + "/product")
-  //     .then(res => res.json())
-  //     .then(json => {
-  //       setProducts(json || []);
-  //     })
-  // }, []);
+  
 
 function pay() {
-    // const cartProducts =
+    
 
     console.log(props.products);
       
     
-    fetch(config.backendUrl + "/payment/1", {
+    fetch(config.backendUrl + "/payment", {
       method: "POST",
       body: JSON.stringify(props.products),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
       },
     })
       .then(response => response.json())

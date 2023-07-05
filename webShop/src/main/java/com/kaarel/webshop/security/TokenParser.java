@@ -1,5 +1,7 @@
 package com.kaarel.webshop.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -20,24 +22,31 @@ import java.io.IOException;
 @Log4j2
 public class TokenParser extends BasicAuthenticationFilter {
 
-    public TokenParser(@Lazy AuthenticationManager authenticationManager){
+    public TokenParser(@Lazy AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        String  header = request.getHeader("Authorization");
-        logger.info(header);
+        String header = request.getHeader("Authorization");
+        logger.info("Authorization: {}" + header);
 
-        if(header != null && header.equals("Bearer 123")){
-            Authentication authentication = new UsernamePasswordAuthenticationToken("124135123",null,null);
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.replace("Bearer ", "");
+            Claims claims = Jwts.parser()
+                    .setSigningKey("super-secret-key")
+                    .parseClaimsJws(token)
+                    .getBody();
+            String email = claims.getSubject();
+            logger.info("Email: {}" + email);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        if (header != null && header.equals("Bearer 1234")) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken("s@s.ee", null, null);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+//        if (header != null && header.equals("Bearer 1234")) {
+//            Authentication authentication = new UsernamePasswordAuthenticationToken("s@s.ee", null, null);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//        }
 
         super.doFilterInternal(request, response, chain);
     }

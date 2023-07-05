@@ -35,7 +35,7 @@ function HomePage() {
   
   useEffect(() => {
     // TODO: Backendi päring (kategooriad)
-    fetch(config.backendUrl + "/product")
+    fetch(config.backendUrl + "/public-products")
       .then(res => res.json())
       .then(json => {
         setProducts(json.slice(0,productsInPage) || []); //otseselt pole tühja arrayd vaja. Oleneb kas backend tagastab
@@ -56,7 +56,7 @@ function HomePage() {
 
   return (
     <div>
-      <CarouselGallery />
+      <CarouselGallery/>
       
       <SortButtons 
         filteredProducts={filteredProducts}

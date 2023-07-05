@@ -2,7 +2,11 @@
   "nav": {
     "admin": "Admin vaatesse",
     "shops": "Meie poed",
-    "cart": "Ostukorvi"
+    "cart": "Ostukorv",
+    "log_in": "Logi sisse",
+    "log_out": "Logi välja",
+    "sign_up": "Registreeri",
+    "orders": "Tellimused"
   },
   "maintain-categories": "Halda kategooriaid",
   "maintain-shops": "Halda poode",
@@ -10,6 +14,7 @@
   "maintain-products": "Halda tooteid",
   "maintain-carousel": "Halda karuselli",
   "maintain-persons": "Halda kasutajaid",
+  "show-orders": "Näita tellimusi",
   "sort": {
     "sorteeriAZ":"Sorteeri A-Z",
     "sorteeriZA":"Sorteeri Z-A",

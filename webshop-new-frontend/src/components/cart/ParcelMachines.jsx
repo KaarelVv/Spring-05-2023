@@ -16,20 +16,20 @@ function ParcelMachines() {
   }, []);
 
   return (
-<div>
-    <select style={{ "font-size": "10px" }}>
-      <option value="">Omniva pakiautomaat</option>
-    {parcelMachines.omnivaParcelMachines?.map(parcel => (
-      <option key={parcel.NAME}>{parcel.NAME}</option>
-    ))}
-   </select>
-    <select style={{ "font-size": "10px" }}>
-    <option value="">Smartpost pakiautomaat</option>
-    {parcelMachines.smartpostParcelMachines?.map(parcel => (
-    <option key={parcel.name}>{parcel.name}</option>
-  ))}
-  </select>
- </div>
+    <div>
+      <select >
+        <option value="">Omniva pakiautomaat</option>
+        {parcelMachines.omnivaParcelMachines?.map(parcel => (
+          <option key={parcel.NAME}>{parcel.NAME}</option>
+        ))}
+      </select>
+      <select >
+        <option value="">Smartpost pakiautomaat</option>
+        {parcelMachines.smartpostParcelMachines?.map(parcel => (
+          <option key={parcel.name}>{parcel.name}</option>
+        ))}
+      </select>
+    </div>
   )
 }
 

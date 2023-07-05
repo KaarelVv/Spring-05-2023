@@ -10,7 +10,9 @@ function MaintainProducts() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(config.backendUrl + "/product")
+    fetch(config.backendUrl + "/product", {
+      headers: {"Authorization": "Bearer " + sessionStorage.getItem("token")}
+    })
       .then(res => res.json())
       .then(json => {
         setProducts(json || []);
@@ -23,7 +25,7 @@ function MaintainProducts() {
 
     // TODO: Backendi päring
     fetch(`http://localhost:8080/product/delete/${id}`, {
-      method: "DELETE"
+      method: "DELETE", headers: {"Authorization": "Bearer " + sessionStorage.getItem("token")}
     })
       .then(res => res.json())
       .then(data => setProducts(data))
@@ -37,13 +39,13 @@ function MaintainProducts() {
   };
   const increaseStock = (id) => {
 
-    fetch(`http://localhost:8080/increase-stock/${id}`, { method: "PATCH" })
+    fetch(`http://localhost:8080/increase-stock/${id}`, { method: "PATCH",headers: {"Authorization": "Bearer " + sessionStorage.getItem("token")} })
       .then(res => res.json())
       .then(data => setProducts(data))
   };
   const decreaseStock = (id) => {
 
-    fetch(`http://localhost:8080/decrease-stock/${id}`, { method: "PATCH" })
+    fetch(`http://localhost:8080/decrease-stock/${id}`, { method: "PATCH", headers: {"Authorization": "Bearer " + sessionStorage.getItem("token")} })
       .then(res => res.json())
       .then(data => setProducts(data));
   }
