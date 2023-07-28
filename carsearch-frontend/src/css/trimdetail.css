@@ -1,0 +1,39 @@
+.car-trim-details {
+    max-width: 800px;
+    margin: auto;
+    border: solid rgb(192, 192, 192);
+    border-radius: 5px;
+}
+
+.car-trim-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.car-trim-description {
+    color: #666;
+    font-size: 1.5em;
+}
+
+.car-trim-information {
+    margin-top: 1em;
+}
+
+.color-list {
+    list-style: none;
+    padding-left: 0;
+    max-width: 400px;
+    display: inline-block;
+}
+
+.color-list li {
+    margin-bottom: .5em;
+    padding: .5em;
+    color: rgb(216, 178, 178);
+    border-radius: 5px;
+}
+p{
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+}

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import config from "./../../data/config.json";
+import config from "../../data/config.json";
 
 function AllOrders() {
   const [orders, setOrders] = useState([]);
   
-
   useEffect(() => {
     fetch(config.backendUrl + "/order", {
       headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }
@@ -12,9 +11,6 @@ function AllOrders() {
       .then(res => res.json())
       .then(data => setOrders(data))
   }, []);
-
-  
-
 
   return (
     <div >
@@ -33,9 +29,11 @@ function AllOrders() {
           <tr key={order.id}>
             <td>{order.id}</td>
             <td >{order.person.id}</td>
+            <td >{order.person.email}</td>
             <td>{order.totalSum}</td>
             <td>{order.paid}</td>
             <td>{order.creationDate}</td>
+            <td>{order.orderRows.map(row => <span key={row.id}>{row.product.name}:{row.quantity} |</span>)}</td>
             
           </tr>)}
         </tbody>

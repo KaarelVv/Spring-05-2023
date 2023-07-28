@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
-
 public class ShopController {
     @Autowired
     ShopRepository shopRepository;
@@ -19,22 +17,23 @@ public class ShopController {
         return shopRepository.findAll();
     }
 
-    @PostMapping("shop/add")
+    @PostMapping("shop")
     public List<Shop> addShop(@RequestBody Shop shop) {
         if (shop.getId() == null || !shopRepository.existsById(shop.getId()))
             shopRepository.save(shop);
         return shopRepository.findAll();
     }
 
-    @PutMapping("shop/edit")
+    @PutMapping("shop")
     public List<Shop> editShop(@RequestBody Shop shop) {
         if (shopRepository.existsById(shop.getId())) {
             shopRepository.save(shop);
         }
         return shopRepository.findAll();
     }
-    @DeleteMapping("shop/delete/{id}")
-    public List<Shop>deleteShop(@PathVariable Long id){
+
+    @DeleteMapping("shop/{id}")
+    public List<Shop> deleteShop(@PathVariable Long id) {
         shopRepository.deleteById(id);
         return shopRepository.findAll();
     }

@@ -8,8 +8,6 @@ import ParcelMachines from '../../components/cart/ParcelMachines';
 import Payment from '../../components/cart/Payment';
 import { CartSumContext } from '../../store/CartSumContext';
 
-
-
 function Cart() {
   const [cart, updateCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
   const { setCartSum } = useContext(CartSumContext);

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import config from "../../data/config.json";
 
 
-
 function Orders() {
     const [orders, setOrders] = useState([]);
-
 
     useEffect(() => {
 
@@ -16,10 +14,7 @@ function Orders() {
             .then(data => setOrders(data));
     }, []);
 
-    
-
-
-    return (
+return (
         <div>
             <table>
                 <thead>
@@ -34,8 +29,8 @@ function Orders() {
                             <td>{order.id}</td>
                             <td>{order.totalSum}</td>
                         </tr>
-                        ))}
-                    </tbody>
+                    ))}
+                </tbody>
             </table>
         </div>
     )

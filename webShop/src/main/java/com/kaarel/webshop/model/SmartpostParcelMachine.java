@@ -1,5 +1,8 @@
 package com.kaarel.webshop.model;
 
+import lombok.Data;
+
+@Data
 public class SmartpostParcelMachine {
     public int place_id;
     public String name;

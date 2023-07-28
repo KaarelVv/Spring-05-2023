@@ -34,30 +34,30 @@ public class DatabaseController {
 
     // 2. Tagastatakse kõik mängijad
     @GetMapping("players")
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return playerRepository.findAll();
     }
 
     // 3. Tagastatakse kõik mängud
     @GetMapping("games")
-    public List<Game> getGames(){
+    public List<Game> getGames() {
         return gameRepository.findAll();
     }
 
     // 4. Tagatatakse kõik mängud high-score järjekorras
 
     @GetMapping("card-game")
-    public List<Player> getHighScore(){
+    public List<Player> getHighScore() {
         return playerRepository.findAllByOrderByHighScoreDesc();
     }
 
     @GetMapping("game-by-score")
-    public List<Game> getHighScoreGames(){
+    public List<Game> getHighScoreGames() {
         return gameRepository.findAllByOrderByCorrectAnswersDesc();
     }
 
     @GetMapping("player-by-score")
-    public List<Player> getHighScorePlayer(){
+    public List<Player> getHighScorePlayer() {
         return playerRepository.findAllByOrderByHighScoreDesc();
     }
 
@@ -90,7 +90,7 @@ public class DatabaseController {
     //  9.  Tagasta kõige suurema skooriga mäng
 
     @GetMapping("/game/highest-score")
-    public Player getHighestScoreGame(){
+    public Player getHighestScoreGame() {
         return playerRepository.findTopByOrderByHighScore();
     }
 
@@ -104,25 +104,26 @@ public class DatabaseController {
     // 11. Tagasta kõik mängijad kellel on high-score vähemalt 2
 
     @GetMapping("/player/return-player/high-score-2")
-    public List<Player> getPlayerHighScoreGreaterThan(){
+    public List<Player> getPlayerHighScoreGreaterThan() {
         return playerRepository.findPlayerByHighScoreGreaterThanEqual(2);
     }
 
     // 12. Tagasta mängud kestvuse järjekorras
 
     @GetMapping("/game/return-duration")
-    public List<Game> getGameDurationDescending(){
+    public List<Game> getGameDurationDescending() {
         return gameRepository.findAllByOrderByDurationDesc();
     }
 
     // 13. Tagasta kõige lühema kestvusega mäng
 
     @GetMapping("/game/return-shortest-duration")
-    public List<Game> getGameDurationShortest(){
+    public List<Game> getGameDurationShortest() {
         return gameRepository.findFirstByOrderByDurationAsc();
     }
+
     @GetMapping("/game/delete/{id}")
-    public List<Game> deleteGameById(@PathVariable Long id){
+    public List<Game> deleteGameById(@PathVariable Long id) {
         gameRepository.deleteById(id);
         return gameRepository.findAllByOrderByCorrectAnswersDesc();
     }

@@ -16,7 +16,10 @@ import com.kaarel.webshop.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,9 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.random.RandomGenerator;
 
 @Service
 public class OrderService {
@@ -42,6 +43,7 @@ public class OrderService {
     ProductCache productCache;
     @Autowired
     OrderRowRepository orderRowRepository;
+
     @Value("${everypay.url}") //vaata application properties
     String everypayUrl;
     @Value("${everypay.authorization}") //vaata application properties
@@ -135,5 +137,8 @@ public class OrderService {
 
 
         return order;
+    }
+    public double totalSum(List<OrderRow> originalProduct){
+        return originalProduct.stream().mapToDouble(e -> e.getProduct().getPrice() * e.getQuantity()).sum();
     }
 }

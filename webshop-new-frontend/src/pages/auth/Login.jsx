@@ -5,8 +5,8 @@ import config from "../../data/config.json";
 
 
 function Login() {
-  
-  const { setLoggedIn } = useContext(AuthContext);
+
+  const {setLoggedIn, setLoggedInUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -16,14 +16,13 @@ function Login() {
     const payLoad = {
       "email": emailRef.current.value,
       "password": passwordRef.current.value,
-      
+
     }
 
     fetch(config.backendUrl + "/login", {
       method: "POST",
       body: JSON.stringify(payLoad),
       headers: {
-        
         "Content-Type": "application/json"
       },
     })
@@ -34,13 +33,19 @@ function Login() {
         // vale parool
         if (data.token !== null && data.token !== undefined) {
           setLoggedIn(true);
-          navigate('/admin');
+          fetch(config.backendUrl + "/person-account", {
+            headers: { Authorization: "Bearer " + data.token },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              setLoggedInUser(data);
+            });
+          navigate('/profile');
           sessionStorage.setItem("token", data.token); //salvesta ära sessionstorage
         } else {
           setMessage(data.message);
         }
       });
-
 
   }
 
@@ -51,9 +56,9 @@ function Login() {
       <input ref={emailRef} type="text" /> <br />
       <label>Parool</label> <br />
       <input ref={passwordRef} type="text" /> <br />
-      
+
       <button onClick={login}>Logi sisse</button>
-      
+
     </div>
   )
 }

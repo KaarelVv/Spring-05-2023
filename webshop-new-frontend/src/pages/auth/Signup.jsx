@@ -39,19 +39,17 @@ function Signup() {
         }
       });
 
-
   }
   return (
     <div>
       <div>{message}</div>
-      <label>Name</label> <br/>
-      <input ref={nameRef} type='text'></input><br/>
+      <label>Name</label> <br />
+      <input ref={nameRef} type='text'></input><br />
       <label>E-mail</label> <br />
       <input ref={emailRef} type="text" /> <br />
       <label>Parool</label> <br />
       <input ref={passwordRef} type="text" /> <br />
       <button onClick={signup}>Registreeru</button>
-
     </div>
   )
 }

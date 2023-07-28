@@ -4,7 +4,6 @@ import config from "../../data/config.json";
 
 function MaintainCarouselPictures() {
   
-  
   const idRef = useRef();
   const srcRef = useRef();
   const altRef = useRef();
@@ -13,8 +12,7 @@ function MaintainCarouselPictures() {
 
   const [carousels, setCarousel] = useState([]);
 
-
-  useEffect(() => {
+useEffect(() => {
     fetch(config.backendUrl + "/carousel")
       .then(res => res.json())
       .then(json => {
@@ -33,7 +31,7 @@ function MaintainCarouselPictures() {
       "description": dscRef.current.value,
     };
 
-    fetch(config.backendUrl + "/carousel/add",
+    fetch(config.backendUrl + "/carousel",
       {
         method: "POST",
         body: JSON.stringify(newCarousel),
@@ -59,7 +57,7 @@ function MaintainCarouselPictures() {
       "header": headerRef.current.value,
       "description": dscRef.current.value,
     }
-    fetch(config.backendUrl + "/carousel/edit", {
+    fetch(config.backendUrl + "/carousel", {
       method: "PUT",
       body: JSON.stringify(updateCarousel),
       headers: { "Content-Type": "application/json" }

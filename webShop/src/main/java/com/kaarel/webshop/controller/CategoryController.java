@@ -8,38 +8,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
 public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
+
     // Taking all
     @GetMapping("categories")
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
+
     // Taking  by id
-    @GetMapping("category/{id}")
-    public Category getCategory(@PathVariable Long id){
+    @GetMapping("categories/{id}")
+    public Category getCategory(@PathVariable Long id) {
         return categoryRepository.findById(id).get();
     }
+
     // Deleting
-    @DeleteMapping("category/delete/{id}")
-    public List<Category> deleteCategory(@PathVariable Long id){
+    @DeleteMapping("categories/{id}")
+    public List<Category> deleteCategory(@PathVariable Long id) {
         categoryRepository.deleteById(id);
         return categoryRepository.findAll();
     }
+
     // Adding category
-    @PostMapping("category/add")
-    public List<Category> addCategory(@RequestBody Category category){
+    @PostMapping("categories")
+    public List<Category> addCategory(@RequestBody Category category) {
         categoryRepository.save(category);
         return categoryRepository.findAll();
     }
+
     // Editing category
-    @PutMapping("category")
-    public List<Category> editCategory(@RequestBody Category category){
-        if (categoryRepository.existsById(category.getId())){
-        categoryRepository.save(category);
-         }
+    @PutMapping("categories")
+    public List<Category> editCategory(@RequestBody Category category) {
+        if (categoryRepository.existsById(category.getId())) {
+            categoryRepository.save(category);
+        }
         return categoryRepository.findAll();
     }
 }

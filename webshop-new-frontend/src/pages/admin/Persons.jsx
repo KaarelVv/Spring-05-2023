@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import config from '../../data/config.json';
-import { use } from 'i18next';
+// import { use } from 'i18next';
 
 function Persons() {
 
   const [persons, setPerson] = useState([]);
-  
+
   const deletePerson = (id) => {
-    fetch(config.backendUrl + "/person/" + id ,  {
+    fetch(config.backendUrl + "/person/" + id, {
       method: "DELETE",
-      headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }})
-    .then(res => res.json())
-    .then(json => setPerson(json))
+      headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }
+    })
+      .then(res => res.json())
+      .then(json => setPerson(json))
   }
 
   useEffect(() => {
     fetch(config.backendUrl + "/person", {
-       headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") } 
-      })
+      headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }
+    })
       .then(res => res.json())
       .then(json => setPerson(json))
   }, []);
+  
   return (
     <div>
-      {/* {persons.map((person) => <div key={person.id}>{person.id}</div>)} */}
       <table>
         <thead>
           <tr>
@@ -47,12 +48,10 @@ function Persons() {
             <td>{person.personalCode}</td>
             <td>{person.creationDate}</td>
             <td>{person.password}</td>
-            <td><button onClick={()=>deletePerson(person.id)}>X</button></td>
-</tr>)}
+            <td><button onClick={() => deletePerson(person.id)}>X</button></td>
+          </tr>)}
         </tbody>
       </table>
-
-
     </div>
   )
 }

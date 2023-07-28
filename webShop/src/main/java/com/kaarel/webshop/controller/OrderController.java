@@ -15,7 +15,6 @@ import java.util.List;
 
 
 @RestController
-
 public class OrderController {
 
     @Autowired
@@ -38,7 +37,6 @@ public class OrderController {
     // võtab kõik
     @GetMapping("order")
     public List<Order> getOrders() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         return orderRepository.findAll();
     }
 
@@ -57,7 +55,7 @@ public class OrderController {
 
         List<OrderRow> originalProduct = orderService.getDbProducts(orderRow);
 
-        double sum = originalProduct.stream().mapToDouble(e -> e.getProduct().getPrice() * e.getQuantity()).sum();
+        double sum = orderService.totalSum(originalProduct);
 
         // double sum =  originalProduct.stream().mapToDouble(Product ::getPrice).sum(); <- vana süsteemi järgi
 
@@ -68,7 +66,6 @@ public class OrderController {
 
     @GetMapping("check-payment/{paymentReference}")
     public Order checkPayment(@PathVariable String paymentReference) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         return orderService.checkIfOrderPaid(paymentReference);
     }
     //http://localhost:8080/check-payment/c6d0914ff12c04ab04d384c4cbb46e5977311c636e0aac34ceac837737ce70bc

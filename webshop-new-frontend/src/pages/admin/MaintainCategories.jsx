@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../data/config.json";
 
 function MaintainCategories() {
@@ -6,49 +6,55 @@ function MaintainCategories() {
   const categoryRef = useRef();
 
   useEffect(() => {
-    fetch(config.backendUrl + "/categories")
-      .then(res => res.json())
-      .then(json => setCategories(json || []));
+    fetch(config.backendUrl + "/categories") //siia pole vaja tokenit kuna näidataakse avalehel kõigile
+      .then((res) => res.json())
+      .then((json) => setCategories(json || []));
   }, [categoryRef]);
 
   const add = () => {
     const newCategory = {
-      "name": categoryRef.current.value
+      name: categoryRef.current.value,
     };
 
-    fetch(config.backendUrl + "/category/add", {
+    fetch(config.backendUrl + "/categories", {
       method: "POST",
       body: JSON.stringify(newCategory),
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.getItem("token"),
+      },
     })
-      .then(res => res.json())
-      .then(json => setCategories(json));
-  }
+      .then((res) => res.json())
+      .then((json) => setCategories(json));
+  };
 
   const deleteCategory = (id) => {
-    fetch(config.backendUrl + "/category/delete/" + id, {
-      method: "DELETE"
-
+    fetch(config.backendUrl + "/categories/" + id, {
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + sessionStorage.getItem("token"),
+      },
     })
-      .then(res => res.json())
-      .then(json => setCategories(json));
-  }
+      .then((res) => res.json())
+      .then((json) => setCategories(json));
+  };
 
   return (
     <div>
       {categories.length === 0 && <div>No categories!</div>}
-      <label>Category</label><br />
-      <input ref={categoryRef} type="text" /><br />
-
+      <label>Category</label>
+      <br />
+      <input ref={categoryRef} type="text" />
+      <br />
       <button onClick={add}>Add</button> <br />
-
-      {categories.map((element, index) =>
+      {categories.map((element, index) => (
         <div key={index}>
           {element.name}
           <button onClick={() => deleteCategory(element.id)}>x</button>
-        </div>)}
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default MaintainCategories
+export default MaintainCategories;

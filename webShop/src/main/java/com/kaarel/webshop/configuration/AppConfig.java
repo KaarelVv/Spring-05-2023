@@ -15,22 +15,23 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-    @Bean // tekitab mällu modelMapper ja kui autowired siis ei tekita iga kord uut kohta
+
+    @Bean // tekitab mällu BCryptPassword ja kui autowired siis ei tekita iga kord uut kohta
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 //    @Bean
 //    public RestTemplate restTemplate(){
 //        return new RestTemplate();
 //    }
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder){ //välaminevad
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) { //välaminevad
         //Siia saan kirjutada mingit loogikat restemplate osas
 
         return new RestTemplateBuilder().build();
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

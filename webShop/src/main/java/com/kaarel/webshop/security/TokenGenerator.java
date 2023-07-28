@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Component
 public class TokenGenerator {
-    public String generateToken(String email){
+    public String generateToken(String email, boolean isAdmin){
         Calendar expiration = Calendar.getInstance();
         expiration.setTime(new Date());
         expiration.add(Calendar.MINUTE,30);
@@ -20,6 +20,7 @@ public class TokenGenerator {
                 .setIssuer("Webshop")
                 .setSubject(email)// seaob tokeni sellele emailile
                 .setExpiration(expiration.getTime())
+                .setAudience(isAdmin ? "ADMIN" : "USER")
                 .compact();
 
 

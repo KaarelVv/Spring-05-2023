@@ -27,7 +27,7 @@ function MaintainShops() {
       "openTime": openTimeRef.current.value,
 
     }
-    fetch(config.backendUrl + "/shop/add",
+    fetch(config.backendUrl + "/shop",
       {
         method: "POST",
         body: JSON.stringify(newShop),
@@ -38,7 +38,7 @@ function MaintainShops() {
 
   }
   const deleteShop = (id) => {
-    fetch(config.backendUrl + "/shop/delete/" + id, {
+    fetch(config.backendUrl + "/shop/" + id, {
       method: "DELETE"
 
     })

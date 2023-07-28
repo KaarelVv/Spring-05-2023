@@ -25,14 +25,14 @@ public class AuthController {
     TokenGenerator tokenGenerator;
 
     @PostMapping("login")
-    public ResponseEntity<AuthToken> login(@RequestBody LoginData loginData){
+    public ResponseEntity<AuthToken> login(@RequestBody LoginData loginData) {
 
         Person person = personRepository.findPersonByEmail(loginData.getEmail());
         AuthToken authToken = new AuthToken();
 
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if(encoder.matches(loginData.getPassword(), person.getPassword())){
-            authToken.setToken(tokenGenerator.generateToken(person.getEmail()));
+        if (encoder.matches(loginData.getPassword(), person.getPassword())) {
+            authToken.setToken(tokenGenerator.generateToken(person.getEmail(), person.isAdmin()));
         }
         return ResponseEntity.ok().body(authToken);
     }
@@ -40,17 +40,17 @@ public class AuthController {
     @PostMapping("signup")
     public ResponseEntity<AuthToken> signup(@RequestBody Person person) throws Exception {
         AuthToken authToken = new AuthToken();
-        if (person.getId()==null || !personRepository.existsById(person.getId())) {
+        if (person.getId() == null || !personRepository.existsById(person.getId())) {
 //            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String hashedPassword = encoder.encode(person.getPassword());
             person.setPassword(hashedPassword);
             person.setCreationDate(new Date());
             personRepository.save(person);
-            authToken.setToken(tokenGenerator.generateToken(person.getEmail()));
-        }else{
+            authToken.setToken(tokenGenerator.generateToken(person.getEmail(), false));
+        } else {
             throw new Exception("Id juba olemas");
         }
 
-        return  ResponseEntity.ok().body(authToken);
+        return ResponseEntity.ok().body(authToken);
     }
 }

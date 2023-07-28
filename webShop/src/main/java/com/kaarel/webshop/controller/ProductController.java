@@ -5,6 +5,7 @@ import com.kaarel.webshop.entity.Product;
 import com.kaarel.webshop.repository.CategoryRepository;
 import com.kaarel.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -13,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 
 @RestController
-
 public class ProductController {
 
     @Autowired
@@ -37,11 +37,14 @@ public class ProductController {
         return productCache.getProduct(id);
     }
 
-    @DeleteMapping("product/delete/{id}")
-    public List<Product> deleteProducts(@PathVariable Long id) {
+    @DeleteMapping("product/{id}")
+    public ResponseEntity<List<Product>> deleteProducts(@PathVariable Long id) {
+        if(!productRepository.existsById(id)){
+            return ResponseEntity.status(204).body(productRepository.findAll());
+        }
         productRepository.deleteById(id);
         productCache.emptyCache(); // tühjendab vahemälu
-        return productRepository.findAll();
+        return ResponseEntity.ok(productRepository.findAll()); //Front-endile
     }
 
     //POST localhost:8080/product
@@ -124,8 +127,6 @@ public class ProductController {
     public List<Product> getActiveProductsWithStock() {
         return productRepository.findAllByActiveTrueAndStockGreaterThan(0);
     }
-
-
 
 
 }

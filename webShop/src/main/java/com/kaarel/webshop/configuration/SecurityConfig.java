@@ -4,6 +4,7 @@ import com.kaarel.webshop.security.TokenParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,18 +42,26 @@ public class SecurityConfig {
                .cors().and().headers().xssProtection().disable().and()
                 .csrf().disable()
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("product/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"person-account").permitAll()
+                        .requestMatchers(HttpMethod.GET,"product/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"product").hasAuthority("Admin")
+                        .requestMatchers(HttpMethod.PUT,"product").hasAuthority("Admin")
+                        .requestMatchers(HttpMethod.POST,"product").hasAuthority("Admin")
                         .requestMatchers("public-products").permitAll()
-                        .requestMatchers("categories/**").permitAll()
+                        .requestMatchers("carousel").permitAll()
+                        .requestMatchers(HttpMethod.GET,"categories").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"categories").hasAuthority("Admin")
+                        .requestMatchers(HttpMethod.PUT,"categories").hasAuthority("Admin")
+                        .requestMatchers(HttpMethod.POST,"categories").hasAuthority("Admin")
 //                        .requestMatchers("person/**").permitAll()
                         .requestMatchers("carousel/**").permitAll()
-//                        .requestMatchers("payment").permitAll()
+                        .requestMatchers("payment/**").permitAll()
                         .requestMatchers("shop/**").permitAll()
                         .requestMatchers("parcel-machines/**").permitAll()
                         .requestMatchers("login").permitAll()
                         .requestMatchers("signup").permitAll()
-
                         .anyRequest().authenticated())
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(tokenParser, BasicAuthenticationFilter.class).build();
 

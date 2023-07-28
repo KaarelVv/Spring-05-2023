@@ -6,20 +6,14 @@ import config from "../../data/config.json";
 
 //({ sum })
 function Payment(props) {
-  
-
   // const { sum, products } = props;
 
   const [link, setLink] = useState();
 
-  
-
-function pay() {
+  function pay() {
     
-
-    console.log(props.products);
+console.log(props.products);
       
-    
     fetch(config.backendUrl + "/payment", {
       method: "POST",
       body: JSON.stringify(props.products),
@@ -29,7 +23,10 @@ function pay() {
       },
     })
       .then(response => response.json())
-      .then(data => window.location.href= data.link);
+      .then(data => {
+        console.log(data);
+        window.location.href= data.link
+      });
   
   }
 

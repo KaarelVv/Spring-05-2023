@@ -5,7 +5,6 @@ import com.kaarel.webshop.model.ParcelMachineResponse;
 import com.kaarel.webshop.model.SmartpostParcelMachine;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-
 public class ParcelMachineController {
     // 1 @PathVariable     URL:  parcel-machines/{country}       parcel-machines/EE
     // 5+ @RequestBody      URL:  parcel-machines    POST, PUT   {"country": EE}  <--- eraldi mudel

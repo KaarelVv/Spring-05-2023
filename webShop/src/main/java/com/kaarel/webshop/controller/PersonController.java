@@ -10,13 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2//Iga klass tuleb eraldi annoteerida kui vaja logida
 @RestController
-
 public class PersonController {
     @Autowired
     PersonRepository personRepository;
@@ -33,23 +31,7 @@ public class PersonController {
     @GetMapping("person-account")
     public Person getPersonAccount() {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Person person = personRepository.findPersonByEmail(email);
-        return person;
-    }
-
-    @GetMapping("person-public2")
-    public List<PersonDto> getPersonsPublic2() {
-        List<Person> persons = personRepository.findAll();
-        List<PersonDto> personDtos = new ArrayList<>();
-        for (Person p : persons) {
-            PersonDto personDto = new PersonDto();
-            personDto.setFirstName(p.getFirstName());
-            personDto.setLastName(p.getFirstName());
-            personDto.setEmail(p.getEmail());
-            personDtos.add(personDto);
-
-        }
-        return personDtos;
+        return personRepository.findPersonByEmail(email);
     }
 
     @Autowired
@@ -58,7 +40,6 @@ public class PersonController {
     @GetMapping("person-public")
     public ResponseEntity<List<PersonDto>> getPersonsPublic() {
         List<Person> persons = personRepository.findAll();
-
 
         List<PersonDto> personDtos = persons.stream()
                 .map(e -> modelMapper.map(e, PersonDto.class))
@@ -69,7 +50,6 @@ public class PersonController {
     //Get person by id
     @GetMapping("person/{id}")
     public ResponseEntity<Person> getPerson(@PathVariable Long id) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         return ResponseEntity.ok().body(personRepository.findById(id).get());
     }
 
@@ -84,7 +64,6 @@ public class PersonController {
     //POST localhost:8080/person
     @PutMapping("person")
     public List<Person> editPerson(@RequestBody Person person) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if (personRepository.existsById(person.getId())) {
             personRepository.save(person);
         }
@@ -99,5 +78,20 @@ public class PersonController {
 //            throw new Exception("Id juba olemas");
 //        }
 //        return  ResponseEntity.status(HttpStatus.CREATED).body(personRepository.findAll());
+//    }
+
+//    @GetMapping("person-public2")
+//    public List<PersonDto> getPersonsPublic2() {
+//        List<Person> persons = personRepository.findAll();
+//        List<PersonDto> personDtos = new ArrayList<>();
+//        for (Person p : persons) {
+//            PersonDto personDto = new PersonDto();
+//            personDto.setFirstName(p.getFirstName());
+//            personDto.setLastName(p.getFirstName());
+//            personDto.setEmail(p.getEmail());
+//            personDtos.add(personDto);
+//
+//        }
+//        return personDtos;
 //    }
 }

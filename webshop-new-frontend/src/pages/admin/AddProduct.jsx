@@ -7,29 +7,19 @@ import { useRef } from 'react';
 
 function AddProduct() {
 
-
   const nameRef = useRef();
   const priceRef = useRef();
   const imageRef = useRef();
   const categoryRef = useRef();
   const descriptionRef = useRef();
   const activeRef = useRef();
-
-
   const [categories, setCategories] = useState([]);
 
-
   useEffect(() => {
-    fetch(config.backendUrl + "/categories", {
-      headers: {
-        "Authorization": "Bearer " + sessionStorage.getItem("token")
-      }
-    })
+    fetch(config.backendUrl + "/categories")
       .then(res => res.json())
       .then(json => setCategories(json))
   }, []);
-
-
 
   function add() {
 
@@ -53,7 +43,6 @@ function AddProduct() {
       toast("Description not filled");
       return;
     }
-    // const selectedCategory = categories.find(category => category.name === categoryRef.current.value);
 
     const addProduct = {
 
@@ -77,9 +66,6 @@ function AddProduct() {
         },
       })
 
-
-
-
     nameRef.current.value = "";
     priceRef.current.value = "";
     imageRef.current.value = "";
@@ -87,9 +73,6 @@ function AddProduct() {
     descriptionRef.current.value = "";
     activeRef.current.checked = false;
   }
-
-
-
   return (
     <div>
 
@@ -97,7 +80,7 @@ function AddProduct() {
       <input ref={nameRef} type="text" /> <br />
       <label> {t("price")}:</label><br />
       <input ref={priceRef} type="number" /> <br />
-      <label> {t("image")+" url"}:</label><br />
+      <label> {t("image") + " url"}:</label><br />
       <input ref={imageRef} type="text" /><br />
       <label> {t("category")}:</label>
       <select ref={categoryRef}>

@@ -51,11 +51,6 @@ public class CardService { // Service musta töö tegija
             playerRepository.save(player);
         }
     }
-
-
-
-
-
     public String checkIfCorrect(String input) {
         if (lives<= 0){
             return "Out of guesses!";
