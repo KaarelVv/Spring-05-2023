@@ -36,7 +36,7 @@ public class Ad {
     @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Images> adImages = new ArrayList<>(); //TODO:
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference //  for handling bidirectional relationships
     private Account account;
 
 }

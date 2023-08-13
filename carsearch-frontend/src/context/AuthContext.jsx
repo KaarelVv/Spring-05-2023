@@ -10,7 +10,11 @@ export const AuthContextProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState({});
   const [accountId, setAccountId] = useState({});
 
+  
   useEffect(() => {
+    if(sessionStorage.getItem("token") === null){
+      return
+    }
     fetch("http://localhost:8080/user-account", {
       headers: { "Authorization": "Bearer " + sessionStorage.getItem("token") }
     })
@@ -24,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
         console.log(data);
         setLoggedInUser(data);
         
-        setAccountId(data)
+        setAccountId(data.id)
         setLoggedIn(true); // remain logged in after refresh
       })
       .catch(err => {

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 import ImageDisplay from '../../components/ImageDisplay';
 import { AuthContext } from '../../context/AuthContext';
+import { Link } from "react-router-dom";
 import "../../css/styles.css"
 
 
@@ -14,6 +15,7 @@ function Ad() {
 
     const [ads, setAds] = useState([]);
     const [isLoading, setLoading] = useState(false);
+    const [message, setMessage] = useState();
 
 
     const titleRef = useRef();
@@ -32,10 +34,6 @@ function Ad() {
                 setAds(json.ads);
                 console.log(json.ads);
                 setLoading(false);
-            })
-            .catch(e => {
-                toast.error("Failed to fetch ads");
-                setLoading(false);
             });
     }, [accountId]);
 
@@ -50,8 +48,12 @@ function Ad() {
         }
         const formData = new FormData();
 
-        for (let i = 0; i < imageRef.current.files.length; i++) {
-            formData.append("files", imageRef.current.files[i]);
+        if (imageRef.current.files.length > 0) {
+            for (let i = 0; i < imageRef.current.files.length; i++) {
+                formData.append("files", imageRef.current.files[i]);
+            }
+        } else {
+            formData.append("files", "");
         }
         formData.append("title", addAd.title);
         formData.append("description", addAd.description);
@@ -62,18 +64,32 @@ function Ad() {
 
         fetch("http://localhost:8080/ad", {
             method: "POST",
+
             body: formData,
         })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return res.json();
-        })
-        .then(json => setAds(json))
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+            .then((response) => {
+
+                if (!response.ok) {
+
+                    console.log(response)
+                    throw response;
+                }
+                return response.json();
+
+            })
+            .then(json => {
+                setAds(json);
+                console.log("Added new ad");
+                setMessage(json.message);
+            })
+            .catch(error => {
+                error.json()
+                    .then(errorMessage => {
+                        console.log(errorMessage.message);
+                        setMessage(errorMessage.message);
+                    });
+                // setMessage(error || "This") ;
+            });
     }
 
     if (isLoading) {
@@ -82,6 +98,7 @@ function Ad() {
 
     return (
         <div>
+
             <label>
                 Image:
                 <input type="file" ref={imageRef} multiple />
@@ -111,7 +128,13 @@ function Ad() {
                 Active:
                 <input type="checkbox" ref={activeRef} />
             </label>
-            <button onClick={add}>Submit</button>
+            <label>
+                <button onClick={add}>Submit</button>
+            </label>
+            <label>
+                <div className="error">{message}</div>
+            </label>
+
             <table className='table'>
                 <thead >
                     <tr>
@@ -120,19 +143,23 @@ function Ad() {
                         <th>Type</th>
                         <th>Active</th>
                         <th>Date created</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     {console.log(ads)}
                     {ads.map((ad, index) => (
                         <tr key={index.id}>
-                            <td>{ad.title}</td>
+                            <td >{ad.title}</td>
                             <td>{ad.description}</td>
                             <td>{ad.type}</td>
                             <td>{ad.active ? 'True' : 'False'}</td>
                             <td>{ad.creationDate}</td>
+                            <td>{ad.price}</td>
                             <td>{ad.imageUrl}</td>
-                            <ImageDisplay adId={ad.id} ></ImageDisplay>
+                            <td><ImageDisplay key={ad.id} adId={ad.id} ></ImageDisplay></td>
+                            <td><Link to={`/ad/${ad.id}`}>Edit</Link></td>
+                            {console.log(ad.id)}
                         </tr>
                     ))}
                 </tbody>

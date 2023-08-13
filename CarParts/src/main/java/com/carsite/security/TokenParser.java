@@ -19,13 +19,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
 @Log4j2
 public class TokenParser extends BasicAuthenticationFilter {
-
-
     public TokenParser(@Lazy AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -37,7 +36,7 @@ public class TokenParser extends BasicAuthenticationFilter {
             throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
-        logger.info("Authorization: {}" + header);
+        logger.info("Authorization: {} " + header);
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.replace("Bearer ", "");
@@ -48,12 +47,18 @@ public class TokenParser extends BasicAuthenticationFilter {
             String email = claims.getSubject();
             logger.info("Email: {}" + email);
 
+            Date expiration = claims.getExpiration();
+            if (expiration.before(new Date())) {
+
+                System.out.println("Token for " + claims.getSubject() + " has expired.");
+            }
+
             List<GrantedAuthority> authorities = new ArrayList<>();
 
             if (claims.getAudience().equals("ADMIN")) {
                 GrantedAuthority authority = new SimpleGrantedAuthority("Admin");
                 authorities.add(authority);
-                log.info("LÄKSIN ADMININA SISSE!");
+                logger.info("-------Admin log in!--------");
             }
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);

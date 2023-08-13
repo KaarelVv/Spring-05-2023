@@ -7,6 +7,7 @@ import com.carsite.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,11 +18,14 @@ import java.util.Optional;
 public class AccountController {
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("account")
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
+
     @GetMapping("account/{id}/ads")
     public ResponseEntity<Account> getAccountWithAds(@PathVariable Long id) {
         Optional<Account> optionalAccount = accountRepository.findById(id);
@@ -31,7 +35,7 @@ public class AccountController {
         }
         Account account = optionalAccount.get();
         List<Ad> ads = account.getAds();
-        // Set the ads in the account object to avoid infinite loop during serialization
+        // This is  to avoid infinite loop during serialization
         account.setAds(new ArrayList<>());
         account.setAds(ads);
 
@@ -45,6 +49,8 @@ public class AccountController {
     @PutMapping("account")
     public List<Account> editAccount(@RequestBody Account account) {
         if (accountRepository.existsById(account.getId())) {
+            String hashedPassword = bCryptPasswordEncoder.encode(account.getPassword());
+            account.setPassword(hashedPassword);
             accountRepository.save(account);
         }
         return accountRepository.findAll();

@@ -37,13 +37,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"trims/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.GET,"ad").permitAll()
+                        .requestMatchers(HttpMethod.GET,"ad/{id}").permitAll()
                         .requestMatchers(HttpMethod.POST,"ad").permitAll()
                         .requestMatchers(HttpMethod.PUT,"ad/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"ad/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.GET,"ad/{adId}/images").permitAll()
                         .requestMatchers(HttpMethod.GET,"images/{filename:.+}").permitAll()
+                        .requestMatchers(HttpMethod.GET,"images").permitAll()
+                        .requestMatchers(HttpMethod.GET,"images/").permitAll()
                         .requestMatchers(HttpMethod.POST,"upload").permitAll()
+
 
                         .requestMatchers(HttpMethod.GET,"account").permitAll()
                         .requestMatchers(HttpMethod.GET,"user-account").permitAll()
@@ -52,9 +56,11 @@ public class SecurityConfig {
                         .requestMatchers("login").permitAll()
 
 
-                        .anyRequest().authenticated())
+                        .anyRequest()
+                        .authenticated())
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(tokenParser, BasicAuthenticationFilter.class).build();
+                .addFilterBefore(tokenParser, BasicAuthenticationFilter.class)
+                .build();
     }
 }

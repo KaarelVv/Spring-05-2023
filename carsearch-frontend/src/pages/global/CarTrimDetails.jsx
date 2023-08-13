@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import "../../css/trimdetail.css"
+import styles from  "../../css/trimdetail.module.css"
 
 function CarTrimDetails() {
 
@@ -31,7 +31,7 @@ function CarTrimDetails() {
     }
 
     return (
-        <div className="car-trim-details">
+        <div className={styles["details"]}>
             <h1 className="car-trim-title">{trim.name}</h1>
             <h2 className="car-trim-description">{trim.description}</h2>
             <div >

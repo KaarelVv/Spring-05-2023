@@ -1,6 +1,8 @@
 package com.carsite.controller;
 
 import com.carsite.entity.Account;
+import com.carsite.exception.EmailException;
+import com.carsite.exception.NameException;
 import com.carsite.model.AthToken;
 import com.carsite.model.LoginData;
 import com.carsite.repository.AccountRepository;
@@ -21,12 +23,16 @@ public class AuthController {
     @Autowired
     TokenGenerator tokenGenerator;
     @PostMapping("signup")
-    public ResponseEntity<AthToken> signUp(@RequestBody Account account) throws Exception {
+    public ResponseEntity<AthToken> signUp(@RequestBody Account account) {
         AthToken athToken = new AthToken();
-
-
-        if(account.getEmail() != null && accountRepository.existsByEmail(account.getEmail())) {
-            throw new Exception("An account with this email already exists.");
+        if (account.getEmail() == null || !account.getEmail().contains("@")) {
+            throw new EmailException("Email must contain an @ sign.");
+        }
+        if(accountRepository.existsByEmail(account.getEmail())) {
+            throw new EmailException("An account with that email already exists.");
+        }
+        if(account.getFirstName() != null && accountRepository.existsByFirstName(account.getFirstName())) {
+            throw new NameException( "An account with this name already exists.");
         }
         String hashedPassword = bCryptPasswordEncoder.encode(account.getPassword());
         account.setPassword(hashedPassword);
@@ -44,7 +50,7 @@ public class AuthController {
 
         if (bCryptPasswordEncoder.matches(loginData.getPassword(), account.getPassword())) {
             authToken.setToken(tokenGenerator.generateToken(account.getEmail(), account.isAdmin()));
-            authToken.setAccountId(account.getId());//---------------------------------------------
+            authToken.setAccountId(account.getId());
         }
         return ResponseEntity.ok().body(authToken);
     }

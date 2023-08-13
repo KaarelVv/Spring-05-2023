@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ImageDisplay from '../../components/ImageDisplay';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -9,20 +10,22 @@ function AllAds({ isHomePage = false }) {
         fetch('http://localhost:8080/ad')
             .then(response => response.json())
             .then(data => {
-                setAds(data);
-                console.log(data);
+                setAds(data.filter(ad => ad.active));
+
             })
             .catch(error => console.error(error));
     }, []);
 
-    const getAds = (ads) => {
+
+    const adsForHomepage = (ads) => {
         return isHomePage ? ads.slice(0, 3) : ads;
     }
+
 
     return (
         <div className="container my-3">
             {isHomePage && <h5>Recently added advertisement</h5>}
-            {getAds(ads).map((ad) => (
+            {adsForHomepage(ads).map((ad) => (
                 <div key={ad.id} className="list-group my-3">
                     <div className="list-group-item">
                         {isHomePage ? (
@@ -35,12 +38,14 @@ function AllAds({ isHomePage = false }) {
                         ) : (
                             <>
                                 <div className='static-ad'>
-                                <h5 >Title: {ad.title}</h5>
-                                <p >Description: {ad.description}</p>
-                                <p >Type: {ad.type}</p>
-                                <p >Price: {ad.price || "Not available"}</p>
-                                <p >Date Created: {new Date(ad.creationDate).toLocaleDateString()}</p>
-                                <p >Images: <ImageDisplay adId={ad.id} /></p>
+                                    <Link to={`/ad/details/${ad.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <h5>Title: {ad.title}</h5>
+                                        <p>Description: {ad.description}</p>
+                                        <p>Type: {ad.type}</p>
+                                        <p>Price: {ad.price || "Not available"}</p>
+                                        <p>Date Created: {new Date(ad.creationDate).toLocaleDateString()}</p>
+                                        <p>Images: <ImageDisplay adId={ad.id} /></p>
+                                    </Link>
                                 </div>
                             </>
                         )}

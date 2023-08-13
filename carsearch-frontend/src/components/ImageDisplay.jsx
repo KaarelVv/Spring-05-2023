@@ -22,7 +22,7 @@ function ImageDisplay({ adId}) {
     return (
         <div>
             {imageData.map((img, index) => (
-                <img key={index} className='ad-picture'  src={img} alt='Your img'   />
+                <img key={index} className='ad-picture'  src={img} alt=''   />
             ))}
         </div>
     )

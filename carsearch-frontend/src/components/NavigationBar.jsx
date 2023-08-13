@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 function NavigationBar() {
@@ -27,8 +27,6 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto ">
-
-
             {loggedInUser.email !== undefined &&
               <Nav.Link as={Link} to="/ad" >Upload ad</Nav.Link>}
             <NavDropdown title="Account" id="basic-nav-dropdown">
@@ -47,7 +45,7 @@ function NavigationBar() {
               }
             </NavDropdown>
             {loggedInUser.admin === true &&
-              <NavDropdown title="Admin" id="basic-nav-dropdown">
+              <NavDropdown title="| Admin" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/profiledb">Profiles</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/adsdb">Ads DB</NavDropdown.Item>
               </NavDropdown>}

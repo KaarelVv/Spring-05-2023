@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
-  const {setLoggedIn, setLoggedInUser, setAccountId } = useContext(AuthContext);
+  const { setLoggedIn, setLoggedInUser, setAccountId } = useContext(AuthContext);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -26,12 +26,18 @@ function Login() {
         "Content-Type": "application/json"
       },
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          // Handle HTTP errors
+          return response.json().then(err => { throw err; });
+        }
+        return response.json();
+      })
       .then(data => {
         console.log(data)
         setAccountId(data.accountId);
         console.log(data.accountId);
-      
+
         if (data.token !== null && data.token !== undefined) {
           setLoggedIn(true);
           fetch("http://localhost:8080/user-account", {
@@ -41,14 +47,20 @@ function Login() {
             .then((data) => {
               setLoggedInUser(data);
               console.log(data);
-              
-              
+
+
             });
-           navigate('/');
-          sessionStorage.setItem("token", data.token); 
+          sessionStorage.setItem("token", data.token);
+          console.log(data.token)
+          navigate('/');
+
         } else {
           setMessage(data.message);
         }
+      })
+      .catch(error => {
+        console.error("There was an error with the request:", error);
+        setMessage("An error occurred. Please try again later.");
       });
 
   }

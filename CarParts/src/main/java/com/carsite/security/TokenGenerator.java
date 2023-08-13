@@ -12,7 +12,7 @@ public class TokenGenerator {
     public String generateToken(String email, boolean isAdmin){
         Calendar expiration = Calendar.getInstance();
         expiration.setTime(new Date());
-        expiration.add(Calendar.MINUTE,20);
+        expiration.add(Calendar.MINUTE,10);
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, "secret")
                 .setIssuer("CarCatalogue")

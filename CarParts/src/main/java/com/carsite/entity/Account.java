@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
+
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -33,7 +35,7 @@ public class Account {
     private boolean admin;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)//cascade.all when using delete will remove all ads related to that account!
     //@JoinColumn// means that account always needs to have ad. Not the best scenario...
-    @JsonManagedReference
+    @JsonManagedReference//  for handling bidirectional relationships, owning side of the relationship
     private List<Ad> ads = new ArrayList<>();
 
 }

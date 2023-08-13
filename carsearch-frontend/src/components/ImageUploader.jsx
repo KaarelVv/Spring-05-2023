@@ -28,7 +28,7 @@ const ImageUploader = () => {
                 console.log(data);
             })
             .catch((error) => {
-                console.error('Error:', error);
+                console.error(error);
             });
         if (!selectedFile) {
             return <div>No file selected</div>

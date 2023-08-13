@@ -15,6 +15,8 @@ import AllAds from './pages/global/AllAds';
 import Profile from './pages/auth/Profile';
 import ManageAds from './pages/admin/ManageAds';
 import ProfileDb from './pages/admin/ProfileDb';
+import EditAd from './pages/user/EditAd';
+import AdDetails from './pages/global/AdDetails';
 
 function App() {
 
@@ -28,17 +30,21 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/car/:selectedCar" element={<Cars />} />
-        <Route path="/details/:trimId" element={<CarTrimDetails />} />
+        <Route path="/car/details/:trimId" element={<CarTrimDetails />} />
         <Route path="/cartrims" element={<CarTrims />} />
         <Route path="/ads" element={<AllAds />} />
-<Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        
+        <Route path="/ad/details/:adId" element={<AdDetails />} />
+
       
+
+
         {loggedInUser?.email && (
           <>
             <Route path="/profile" element={<Profile />} />
             <Route path="/ad" element={<Ad />} />
+            <Route path="/ad/:adId" element={<EditAd />} />
             {loggedInUser?.admin && (
               <>
                 <Route path="/profiledb" element={<ProfileDb />} />

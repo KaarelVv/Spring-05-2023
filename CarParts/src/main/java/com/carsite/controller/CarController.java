@@ -12,7 +12,6 @@ import com.carsite.repository.carRepo.MakeModelRepository;
 import com.carsite.repository.carRepo.MakeRepository;
 import com.carsite.repository.carRepo.TrimRepository;
 import com.carsite.service.VehicleService;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
-
-@Log4j2
 
 @RestController
 public class CarController {
@@ -72,7 +69,6 @@ public class CarController {
         vehicleService.saveResponseToDatabase();
         return "Saved";
     }
-
     @GetMapping("makesdb")
     public List<Make> getMakeDb() {
         return makeRepository.findAll();
